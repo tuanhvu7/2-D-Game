@@ -4048,7 +4048,7 @@ static class SpritePathChunker {
   }
 
   /**
-   * This function computes (d/dt)Â² for the cubic Bezier function.
+   * This function computes (d/dt)² for the cubic Bezier function.
    */
   private static float ddtsqr(float t, float p1, float p2, float p3, float p4)
   {
@@ -4592,12 +4592,6 @@ class Mario extends Player {
   float xPos;
   float yPos;
   
-  // true = against wall while in air
-  boolean wallJump = false;
-  
-  // true = on ground after jump
-  boolean landed = true;
-  
   // constructs a Mario at given position x and y
   Mario(float x, float y) {
     super("Mario");
@@ -4632,7 +4626,7 @@ class Mario extends Player {
     addState(new State("dead", "DeadTien.JPG",1,2));
     
     State jumping = new State("jumping", "SmallTien.JPG");
-    jumping.setDuration(jumpDuration);
+    jumping.setDuration(15);
     addState(jumping);
     
     
@@ -4641,69 +4635,70 @@ class Mario extends Player {
   
   
   void handleInput() {
-    
     // handle running
     if(isKeyDown('A') || isKeyDown('D')) {
       if (isKeyDown('A')) {
         setHorizontalFlip(true);
         addImpulse(-2, 0);
-        if(xPos != leftX) {
+        if(boundaries.size() != 2) {
           xPos -= 2;
         }
       }
       if (isKeyDown('D')) {
         setHorizontalFlip(false);
         addImpulse(2, 0);
-        if(xPos != rightX) {
+        if(boundaries.size() != 2) {
           xPos += 2;
         }
       }
       //setCurrentState("running");
     }
  
+     // handle jumping against a wall
+    boolean wallJump = false;
+ 
     // handle jumping
-    if(isKeyDown('W') && active.name!="jumping" && boundaries.size()>0 && !wallJump && landed) {
-      addImpulse(0,-50);
+    if(isKeyDown('W') && active.name!="jumping" && boundaries.size()>0 && !wallJump) {
+      addImpulse(0,-35);
       setCurrentState("jumping");
-      landed = false;
+    }
+
+    if (active.name =="jumping") {
+      
+      if(boundaries.size() == 0) {    // in air
+        wallJump = false;
+        if(isKeyDown('A') || isKeyDown('D')) {
+          setCurrentState("running");
+        } else { 
+          setCurrentState("idle"); 
+        }
+        
+      } else {    // touching wall
+        wallJump = true;
+      }
     }
     
-    //if(!isKeyDown('A') && !isKeyDown('D') && !isKeyDown('W')) {
-    //  setCurrentState("idle");
+    // if against wall
+    if(wallJump) {
+      if(boundaries.size() == 2) {  //touching ground and wall
+        if(isKeyDown('A') || isKeyDown('D')) {
+          setCurrentState("running");
+        } else { 
+          setCurrentState("idle"); 
+        }
+        wallJump = false;
+      }
+    }
+    
+    
+    //if (active.name =="jumping" && boundaries.size()>0) {
+    //  if(isKeyDown('A') || isKeyDown('D')) {
+    //    setCurrentState("running");
+    //  }
+    //  else { setCurrentState("idle"); }
     //}
     
-    if (!landed) {
-      
-      //if(boundaries.size() == 0) {    // in air
-      //  wallJump = false;
-      //} else 
-      if(xPos == leftX || xPos == rightX) {    // touching wall
-        wallJump = true;
-        print("1 \n");
-      }
-      
-      // if landed on ground after jump
-      if(boundaries.size() == 2 
-        || (xPos != leftX && boundaries.size() == 1 )
-        || (xPos != rightX && boundaries.size() == 1 )) { 
-        landed = true; 
-      }
-    } else {
-      if(isKeyDown('A') || isKeyDown('D')) {
-        setCurrentState("running");
-        print("2 \n");
-      }
-      else { 
-        setCurrentState("idle"); 
-          print("3 \n");  
-      }
-      wallJump = false;
-    }
-    
-    //print(landed + "\n");
-    //print(xPos + " " + leftX + "\n");
-    //print(wallJump + " \n");
-    //print(active.name + "\n");
+    print(xPos + "\n");
   }
   
 }
