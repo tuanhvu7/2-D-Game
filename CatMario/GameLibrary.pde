@@ -4487,6 +4487,15 @@ void drawBackground(float width, float height) {
  /***** OWN CODE *****/
 
 
+/***** Create a level using width and height *****/
+class MyLevel extends Level {
+  MyLevel(float levelWidth, float levelHeight) {
+    super(levelWidth, levelHeight);
+    addLevelLayer("my level layer", new MyLevelLayer(this));
+  }
+}
+
+// Simple test level
 class MyLevelLayer extends LevelLayer {
   MyLevelLayer(Level owner) {
     super(owner);
@@ -4496,16 +4505,15 @@ class MyLevelLayer extends LevelLayer {
     Tien tien = new Tien();
     tien.setPosition(screenWidth/2, screenHeight/2);
     addPlayer(tien);
+    
+    addBoundary(new Boundary(0,height, width,height));
+    addBoundary(new Boundary(width,height, width,0));
+    addBoundary(new Boundary(width,0,0,0));
+    addBoundary(new Boundary(0,0,0,height));
+    
   }
 }
-
-// Create a level using width and height
-class MyLevel extends Level {
-  MyLevel(float levelWidth, float levelHeight) {
-    super(levelWidth, levelHeight);
-    addLevelLayer("my level layer", new MyLevelLayer(this));
-  }
-}
+/*************************************************/
 
 
 // Tien object
@@ -4521,7 +4529,7 @@ public class Tien extends Player {
   }
   
   void setStates() {
-    addState(new State("standing", "Tien.JPG"));
+    addState(new State("standing", "SmallTien.JPG"));
   }
   
   void handleInput() {
@@ -4529,8 +4537,124 @@ public class Tien extends Player {
     if(isKeyDown('A')) { addImpulse(-1,0); }
     if(isKeyDown('D')) { addImpulse(1,0); }
     if(isKeyDown('S')) { addImpulse(0,1); }
+    
+    //if(keyPressed && (key == CODED)) {
+    //  if(keyCode == UP) {
+    //    addImpulse(0,-1);
+    //  }
+    //  if(keyCode == LEFT) {
+    //    addImpulse(-1,0);
+    //  }
+    //  if(keyCode == RIGHT) {
+    //    addImpulse(1,0);
+    //  }
+    //  if(keyCode == DOWN) {
+    //    addImpulse(0,1);
+    //  }
+    //}
+    setImpulseCoefficients(0.75,0.75);
   }
 }
+
+/****** Mario ********/
+class MarioLevel extends Level {
+  MarioLevel(float levelWidth, float levelHeight) {
+    super(levelWidth, levelHeight);
+    addLevelLayer("layer", new MarioLayer(this));
+  }
+}
+ 
+class MarioLayer extends LevelLayer {
+  MarioLayer(Level owner) {
+    super(owner);
+    
+    // deals with background color and image
+    setBackgroundColor(color(0, 100, 190));
+    Sprite background_picture = new Sprite("sky.gif");
+    TilingSprite background = new TilingSprite(background_picture,0,0,width,height);
+    addBackgroundSprite(background);
+    
+    addBoundary(new Boundary(0,height-48,width,height-48));
+    addBoundary(new Boundary(-1,0, -1,height));
+    addBoundary(new Boundary(width+1,height, width+1,0));
+    showBoundaries = true;
+    
+    Mario mario = new Mario(width/4, height/2);
+    addPlayer(mario);
+  }
+}
+
+// Mario object
+// Has gravity, state, and keyboard control
+class Mario extends Player {
+  Mario(float x, float y) {
+    super("Mario");
+    setupStates();
+    setPosition(x,y);
+    
+    // for gravity
+    handleKey('W');
+    handleKey('A');
+    handleKey('D');
+    setForces(0,DOWN_FORCE);
+    setAcceleration(0,ACCELERATION);
+    setImpulseCoefficients(DAMPENING,DAMPENING);
+  }
+  
+  // sets up different images for character state
+  // default state is idle
+  void setupStates() {
+    addState(new State("idle", "SmallTien.JPG"));
+    addState(new State("running", "TienRun.JPG",1,4));
+    //addState(new State("jumping", "SmallTien.JPG"));
+    addState(new State("dead", "DeadTien.JPG",1,2));
+    
+    State jumping = new State("jumping", "SmallTien.JPG");
+    jumping.setDuration(15);
+    addState(jumping);
+    
+    
+    setCurrentState("idle");    
+  }
+  
+  
+  void handleInput() {
+    // handle running
+    if(isKeyDown('A') || isKeyDown('D')) {
+      if (isKeyDown('A')) {
+        setHorizontalFlip(true);
+        addImpulse(-2, 0);
+      }
+      if (isKeyDown('D')) {
+        setHorizontalFlip(false);
+        addImpulse(2, 0);
+      }
+      //setCurrentState("running");
+    }
+ 
+    // handle jumping
+    if(isKeyDown('W') && active.name!="jumping" && boundaries.size()>0) {
+      addImpulse(0,-35);
+      setCurrentState("jumping");
+    }
+    
+    if (active.name =="jumping" && boundaries.size()<=0) {
+      if(isKeyDown('A') || isKeyDown('D')) {
+        setCurrentState("running");
+      }
+      else { setCurrentState("idle"); }
+    }
+      //print(active.name + "\n");
+  }
+  
+  
+}
+
+
+
+/**************************/
+
+
 
 
 /***********************************
