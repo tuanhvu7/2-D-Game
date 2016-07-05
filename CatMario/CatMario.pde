@@ -74,12 +74,12 @@ class MarioLayer extends LevelLayer {
     
     
     // add some ground platforms    
-    addGroundPlatform(928, height-224, 96, 112);
-    addGroundPlatform(920, height-176, 32, 64);
-    addGroundPlatform(912, height-128, 128, 80);
-    addGroundPlatform(976, height-96, 128, 48);
-    addGroundPlatform(1442, height-128, 128, 80);
-    addGroundPlatform(1442+64, height-96, 128, 48);  
+    addGroundPlatform(928, height-224-30, 96, 112+30);
+    addGroundPlatform(920, height-176-30, 32, 64+30);
+    addGroundPlatform(912, height-128-30, 128, 80+30);
+    addGroundPlatform(976, height-96-30, 128, 48+30);
+    addGroundPlatform(1442, height-128-30, 128, 80+30);
+    addGroundPlatform(1442+64, height-96-30, 128, 48+30);  
   }
   
   void draw() {
@@ -104,7 +104,7 @@ class MarioLayer extends LevelLayer {
   }
   
   // creates a ground platform
-  // whose left-top corner is defined by given x and y
+  // whose top-left corner is defined by given x and y
   // with given width and height w and h
   void addGroundPlatform(float x, float y, float w, float h) {
     // create our top soil layer
@@ -180,12 +180,12 @@ class Mario extends Player {
   // sets up different images for character state
   // default state is idle
   void setupStates() {
-    addState(new State("idle", "SmallTien2.JPG"));
-    addState(new State("running", "TienRun2.JPG",1,4));
-    //addState(new State("jumping", "SmallTien2.JPG"));
-    addState(new State("dead", "DeadTien.JPG",1,2));
+    addState(new State("idle", "RefSmallTien.png"));
+    addState(new State("running", "RefRunTien.png",1,4));
+    //addState(new State("jumping", "RefSmallTien.png"));
+    addState(new State("dead", "RefDeadTien.png",1,2));
     
-    State jumping = new State("jumping", "SmallTien2.JPG");
+    State jumping = new State("jumping", "RefSmallTien.png");
     jumping.setDuration(jumpDuration);
     addState(jumping);
     
