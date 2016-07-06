@@ -272,7 +272,7 @@ abstract class Actor extends Positionable {
    * This boundary blocked our path.
    */
   void gotBlocked(Boundary b, float[] intersection, float[] original) {
-    // subclasses can implement, but don't have to
+
   }
 
   /**
@@ -635,6 +635,7 @@ class Boundary extends Positionable {
   boolean allowPassThrough(float ix, float iy) {
     float[] aligned = CollisionDetection.translateRotate(0,0,ix,iy, 0,0,dx,dy, angle,cosma,sinma);
     return (aligned[3] < 0);
+    //return false;
   }
 
   /**

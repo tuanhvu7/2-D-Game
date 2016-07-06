@@ -17,19 +17,18 @@ float ACCELERATION = 0.5; //1.3
 float DAMPENING = 0.75; //0.75
 
 final int jumpDuration = 10;
-final int deadDuration = 15;
+final int deadDuration = 30;
  
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
   frameRate(30);
-  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));  
+  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
 }
 
 // resets level upon death
 void reset() {
-    clearScreens();
-    frameRate(30);
-    addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));  
+  clearScreens();
+  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));  
 }
 
 /****** Mario ********/
@@ -68,10 +67,14 @@ class MarioLayer extends LevelLayer {
     addBackgroundSprite(background);
     //addBackgroundSprite(new TilingSprite(new Sprite("sky.gif"),0,0,width,height));
     
-    
+    // floor
     addBoundary(new Boundary(0,height-48,width,height-48));
+    // left side
     addBoundary(new Boundary(-1,0, -1,height));
+    // right side
     addBoundary(new Boundary(width+1,height, width+1,0));
+    // top
+    addBoundary(new Boundary(0,0, width,0));
     showBoundaries = true;
     
     mario = new Mario(50, height/2);
@@ -220,7 +223,7 @@ class Mario extends Player {
       // get the angle at which we've impacted with this TV
       float angle = direction[2];
  
-      // Now to find out whether we bopped a koopa on the head!
+      // Now to find out whether we bopped a TV on the head!
       float tolerance = radians(75);
       if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
         // we hit it from above!
@@ -252,12 +255,8 @@ class Mario extends Player {
   
   void handleInput() {
     
-    if(active.name == "dead") {
-      removeActor();
-      reset();
-    } else {
-
-        // handle running
+    if(active.name != "dead") {
+      // handle running
       if(isKeyDown('A') || isKeyDown('D')) {
         if (isKeyDown('A')) {
           setHorizontalFlip(true);
@@ -315,8 +314,7 @@ class Mario extends Player {
         wallJump = false;
       }
       
-      
-    } // endif not dead
+    }
     
     
     
@@ -327,16 +325,15 @@ class Mario extends Player {
   }
   
   
-  //// Resets game when die
-  //void handleStateFinished(State which) {
-  //  print(which.name + "\n");
-  //  if(which.name == "dead") {
-  //    removeActor();
-  //    reset();
-  //  } else {
-  //    setCurrentState("idle");
-  //  }
-  //}
+  // Resets game when die
+  void handleStateFinished(State which) {
+    if(which.name == "dead") {
+      removeActor();
+      reset();
+    } else {
+      setCurrentState("idle");
+    }
+  }
   
 }
 //
@@ -362,7 +359,11 @@ class TV extends Interactor {
   }
   
   
-  void gotBlocked(Boundary b, float[] intersection) {
+  void squish() {
+    removeActor();  
+  }
+  
+  void gotBlocked(Boundary b, float[] intersection, float[] original) {
     // is the boundary vertical?
     if (b.x == b.xw) {
       // yes it is. Reverse direction!
@@ -371,9 +372,7 @@ class TV extends Interactor {
     }
   }
   
-  void squish() {
-    removeActor();  
-  }
+  
 }
   
   
