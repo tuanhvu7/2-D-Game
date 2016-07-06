@@ -635,7 +635,6 @@ class Boundary extends Positionable {
   boolean allowPassThrough(float ix, float iy) {
     float[] aligned = CollisionDetection.translateRotate(0,0,ix,iy, 0,0,dx,dy, angle,cosma,sinma);
     return (aligned[3] < 0);
-    //return false;
   }
 
   /**

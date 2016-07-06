@@ -6,11 +6,11 @@ http://processingjs.nihongoresources.com/test/PjsGameEngine/docs/tutorial/more-m
 gif pictures:
 http://processingjs.nihongoresources.com/test/PjsGameEngine/docs/tutorial/graphics/backgrounds/
 */
-
+// line 831 boundary interact
 final int screenWidth = 512;
 final int screenHeight = 432;
-final float leftX = 86.0;
-final float rightX = 244.0;
+//final float leftX = 29.5;
+//final double top = -38.0;
 
 float DOWN_FORCE = 1.5; // 2
 float ACCELERATION = 0.5; //1.3
@@ -57,6 +57,7 @@ class MarioLevel extends Level {
 class MarioLayer extends LevelLayer {
   
   Mario mario;
+  Boundary top;
   MarioLayer(Level owner) {
     super(owner);
     
@@ -74,7 +75,8 @@ class MarioLayer extends LevelLayer {
     // right side
     addBoundary(new Boundary(width+1,height, width+1,0));
     // top
-    addBoundary(new Boundary(0,0, width,0));
+    top = new Boundary(0,0, width,0);
+    addBoundary(top);
     showBoundaries = true;
     
     mario = new Mario(50, height/2);
@@ -102,6 +104,9 @@ class MarioLayer extends LevelLayer {
     super.draw();
     // for scrolling levels
     viewbox.track(parent, mario);
+    if(mario.y == -38.0) {
+      mario.die();
+    }
   }
   
   // creates dirt and grass ground visual
@@ -158,10 +163,6 @@ class MarioLayer extends LevelLayer {
 // Has gravity, state, and keyboard control
 class Mario extends Player {
   
-  // x and y positions of Mario
-  float xPos;
-  float yPos;
-  
   // true = against wall while in air
   boolean wallJump = false;
   
@@ -172,8 +173,6 @@ class Mario extends Player {
   Mario(float x, float y) {
     super("Mario");
     setupStates();
-    xPos = x;
-    yPos = y;
     setPosition(x,y);
     
     // for gravity
@@ -184,15 +183,6 @@ class Mario extends Player {
     setAcceleration(0,ACCELERATION);
     setImpulseCoefficients(DAMPENING,DAMPENING);
   }
-  
-  float getXPos() {
-    return xPos;
-  }
-  
-  float getYPos() {
-    return yPos;
-  }
-  
   
   // sets up different images for character state
   // default state is idle
@@ -217,7 +207,7 @@ class Mario extends Player {
   
   // what happens when we touch another player or NPC?
   void overlapOccurredWith(Actor other, float[] direction) {
-      // get a reference to this TVd
+      // get a reference to this TV
       TV tv = (TV) other;
       
       // get the angle at which we've impacted with this TV
@@ -241,7 +231,7 @@ class Mario extends Player {
         die(); 
       }
   }
-  
+
   void die() {
     // switch to dead state
     setCurrentState("dead");
@@ -261,16 +251,16 @@ class Mario extends Player {
         if (isKeyDown('A')) {
           setHorizontalFlip(true);
           addImpulse(-2, 0);
-          if(xPos != leftX) {
-            xPos -= 2;
-          }
+          //if(xPos != leftX) {
+          //  xPos -= 2;
+          //}
         }
         if (isKeyDown('D')) {
           setHorizontalFlip(false);
           addImpulse(2, 0);
-          if(xPos != rightX) {
-            xPos += 2;
-          }
+          //if(xPos != rightX) {
+          //  xPos += 2;
+          //}
         }
         //setCurrentState("running");
       }
@@ -288,18 +278,14 @@ class Mario extends Player {
       
       if (!landed) {
         
-        //if(boundaries.size() == 0) {    // in air
-        //  wallJump = false;
-        //} else 
-        if(xPos == leftX || xPos == rightX) {    // touching wall
+        if(this.x == 29.5) {    // touching wall
           wallJump = true;
           //print("1 \n");
         }
         
         // if landed on ground after jump
         if(boundaries.size() == 2 
-          || (xPos != leftX && boundaries.size() == 1 )
-          || (xPos != rightX && boundaries.size() == 1 )) { 
+          || (this.x != 29.5 && boundaries.size() == 1)) { 
           landed = true; 
         }
       } else {
