@@ -12,11 +12,12 @@ final int screenHeight = 432;
 final float leftX = 86.0;
 final float rightX = 244.0;
 
-float DOWN_FORCE = 2;
-float ACCELERATION = 1.3;
-float DAMPENING = 0.75;
+float DOWN_FORCE = 1.5; // 2
+float ACCELERATION = 0.5; //1.3
+float DAMPENING = 0.75; //0.75
 
 final int jumpDuration = 10;
+final int deadDuration = 15;
  
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
@@ -24,6 +25,12 @@ void initialize() {
   addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));  
 }
 
+// resets level upon death
+void reset() {
+    clearScreens();
+    frameRate(30);
+    addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));  
+}
 
 /****** Mario ********/
 
@@ -67,7 +74,7 @@ class MarioLayer extends LevelLayer {
     addBoundary(new Boundary(width+1,height, width+1,0));
     showBoundaries = true;
     
-    mario = new Mario(width/4, height/2);
+    mario = new Mario(50, height/2);
     addPlayer(mario);
     addGround(-32,height-48, width+32,height);
     
@@ -78,8 +85,14 @@ class MarioLayer extends LevelLayer {
     addGroundPlatform(920, height-176-30, 32, 64+30);
     addGroundPlatform(912, height-128-30, 128, 80+30);
     addGroundPlatform(976, height-96-30, 128, 48+30);
+    
     addGroundPlatform(1442, height-128-30, 128, 80+30);
     addGroundPlatform(1442+64, height-96-30, 128, 48+30);  
+    
+    
+    
+    TV tv = new TV(264, height-178);
+    addInteractor(tv);
   }
   
   void draw() {
@@ -177,90 +190,198 @@ class Mario extends Player {
     return yPos;
   }
   
+  
   // sets up different images for character state
   // default state is idle
   void setupStates() {
     addState(new State("idle", "RefSmallTien.png"));
     addState(new State("running", "RefRunTien.png",1,4));
     //addState(new State("jumping", "RefSmallTien.png"));
-    addState(new State("dead", "RefDeadTien.png",1,2));
+    //addState(new State("dead", "RefDeadTien.png",1,2));
     
     State jumping = new State("jumping", "RefSmallTien.png");
     jumping.setDuration(jumpDuration);
     addState(jumping);
     
+    State dead = new State("dead", "RefDeadTien.png", 1, 2);
+    dead.setAnimationSpeed(0.25);
+    dead.setDuration(deadDuration);
+    addState(dead);
     
     setCurrentState("idle");    
   }
   
   
+  // what happens when we touch another player or NPC?
+  void overlapOccurredWith(Actor other, float[] direction) {
+      // get a reference to this TVd
+      TV tv = (TV) other;
+      
+      // get the angle at which we've impacted with this TV
+      float angle = direction[2];
+ 
+      // Now to find out whether we bopped a koopa on the head!
+      float tolerance = radians(75);
+      if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
+        // we hit it from above!
+        // 1) squish the TV
+        tv.squish();
+        // Stop moving in whichever direction we were moving in
+        stop(0,0);
+        // instead, jump up!
+        setImpulse(0, -30);
+        setCurrentState("jumping");
+      }
+ 
+      // if we didn't hit it at the correct angle, we still die =(
+      else { 
+        die(); 
+      }
+  }
+  
+  void die() {
+    // switch to dead state
+    setCurrentState("dead");
+    // turn off interaction, so we don't flag more touching koopas or pickups or walls, etc.
+    setInteracting(false);
+    // make up jump up in an "oh no!" fashion
+    addImpulse(0,-30);
+    // and turn up gravity so we fall down quicker than usual.
+    setForces(0,3);
+  }
+  
   void handleInput() {
     
-    // handle running
-    if(isKeyDown('A') || isKeyDown('D')) {
-      if (isKeyDown('A')) {
-        setHorizontalFlip(true);
-        addImpulse(-2, 0);
-        if(xPos != leftX) {
-          xPos -= 2;
-        }
-      }
-      if (isKeyDown('D')) {
-        setHorizontalFlip(false);
-        addImpulse(2, 0);
-        if(xPos != rightX) {
-          xPos += 2;
-        }
-      }
-      //setCurrentState("running");
-    }
- 
-    // handle jumping
-    if(isKeyDown('W') && active.name!="jumping" && boundaries.size()>0 && !wallJump && landed) {
-      addImpulse(0,-50);
-      setCurrentState("jumping");
-      landed = false;
-    }
-    
-    //if(!isKeyDown('A') && !isKeyDown('D') && !isKeyDown('W')) {
-    //  setCurrentState("idle");
-    //}
-    
-    if (!landed) {
-      
-      //if(boundaries.size() == 0) {    // in air
-      //  wallJump = false;
-      //} else 
-      if(xPos == leftX || xPos == rightX) {    // touching wall
-        wallJump = true;
-        //print("1 \n");
-      }
-      
-      // if landed on ground after jump
-      if(boundaries.size() == 2 
-        || (xPos != leftX && boundaries.size() == 1 )
-        || (xPos != rightX && boundaries.size() == 1 )) { 
-        landed = true; 
-      }
+    if(active.name == "dead") {
+      removeActor();
+      reset();
     } else {
+
+        // handle running
       if(isKeyDown('A') || isKeyDown('D')) {
-        setCurrentState("running");
-        //print("2 \n");
+        if (isKeyDown('A')) {
+          setHorizontalFlip(true);
+          addImpulse(-2, 0);
+          if(xPos != leftX) {
+            xPos -= 2;
+          }
+        }
+        if (isKeyDown('D')) {
+          setHorizontalFlip(false);
+          addImpulse(2, 0);
+          if(xPos != rightX) {
+            xPos += 2;
+          }
+        }
+        //setCurrentState("running");
       }
-      else { 
-        setCurrentState("idle"); 
-          //print("3 \n");  
+   
+      // handle jumping
+      if(isKeyDown('W') && active.name!="jumping" && boundaries.size()>0 && !wallJump && landed) {
+        addImpulse(0,-50);
+        setCurrentState("jumping");
+        landed = false;
       }
-      wallJump = false;
-    }
+      
+      //if(!isKeyDown('A') && !isKeyDown('D') && !isKeyDown('W')) {
+      //  setCurrentState("idle");
+      //}
+      
+      if (!landed) {
+        
+        //if(boundaries.size() == 0) {    // in air
+        //  wallJump = false;
+        //} else 
+        if(xPos == leftX || xPos == rightX) {    // touching wall
+          wallJump = true;
+          //print("1 \n");
+        }
+        
+        // if landed on ground after jump
+        if(boundaries.size() == 2 
+          || (xPos != leftX && boundaries.size() == 1 )
+          || (xPos != rightX && boundaries.size() == 1 )) { 
+          landed = true; 
+        }
+      } else {
+        if(isKeyDown('A') || isKeyDown('D')) {
+          setCurrentState("running");
+          //print("2 \n");
+        }
+        else { 
+          setCurrentState("idle"); 
+            //print("3 \n");  
+        }
+        wallJump = false;
+      }
+      
+      
+    } // endif not dead
     
-    //print(landed + "\n");
+    
+    
+    //print(landed + "\n");aada
     //print(xPos + " " + leftX + "\n");
     //print(wallJump + " \n");
     //print(active.name + "\n");
   }
   
+  
+  //// Resets game when die
+  //void handleStateFinished(State which) {
+  //  print(which.name + "\n");
+  //  if(which.name == "dead") {
+  //    removeActor();
+  //    reset();
+  //  } else {
+  //    setCurrentState("idle");
+  //  }
+  //}
+  
 }
+//
+// a TV enemy
+// can only walk
+class TV extends Interactor {
+  // creates TV at position x and y
+  TV(float x, float y) {
+    super("TV");
+    setStates();
+    setForces(-0.25, DOWN_FORCE);
+    setImpulseCoefficients(DAMPENING, DAMPENING);
+    setPosition(x, y);
+  }
+  
+  
+  // TV can only walk
+  void setStates() {
+    // walking state
+    State walking = new State("idle", "RefRunTV.png", 1, 4);
+    walking.setAnimationSpeed(0.12);
+    addState(walking);
+  }
+  
+  
+  void gotBlocked(Boundary b, float[] intersection) {
+    // is the boundary vertical?
+    if (b.x == b.xw) {
+      // yes it is. Reverse direction!
+      fx = -fx;
+      setHorizontalFlip(fx > 0);
+    }
+  }
+  
+  void squish() {
+    removeActor();  
+  }
+}
+  
+  
+
+
+
+
+
  
  
  
