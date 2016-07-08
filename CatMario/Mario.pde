@@ -82,14 +82,13 @@ class Mario extends Player {
       // if we didn't hit it at the correct angle, we still die =(
       else { 
         die(); 
+        isDead = true;
       }
   }
 
   void die() {
     // switch to dead state
     setCurrentState("dead");
-    isDead = true;
-    player.close();
     bgMusic.close();
     playMusic("DeathSound.mp3");
     // turn off interaction, so we don't flag more touching koopas or pickups or walls, etc.
@@ -101,8 +100,15 @@ class Mario extends Player {
   }
   
   // return Mario's dead state
+  // to avoid null pointer from getting active name
   boolean getDead() {
     return isDead;  
+  }
+  
+  // set mario to dead
+  // to avoid null pointer from getting active name
+  void setDead() {
+    isDead = true;  
   }
   
   void handleInput() {

@@ -55,11 +55,10 @@ class MarioLayer1 extends LevelLayer {
     viewbox.track(parent, mario);
     // die if go through ceiling
     if(!mario.getDead()) {
-      if(mario.y == -38.0) {
+      if(mario.y == -38.0 || mario.y >= height) {
+        mario.setDead();
         mario.die();
-      } else if(mario.y >= height) { // die if fall in pit
-        mario.die();
-      }
+      } 
     }
 
     //print(mario.y + "\n");
