@@ -1,9 +1,8 @@
-
 // a TV enemy
 // can only walk
-class TV extends Interactor {
+class BigTV extends Interactor {
   // creates TV at position x and y
-  TV(String name, float x, float y) {
+  BigTV(String name, float x, float y) {
     super(name);
     setStates();
     setForces(-0.25, DOWN_FORCE);
@@ -34,5 +33,6 @@ class TV extends Interactor {
       setHorizontalFlip(fx > 0);
     }
   }
-}
   
+  
+}

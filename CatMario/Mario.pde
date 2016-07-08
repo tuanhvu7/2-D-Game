@@ -3,20 +3,26 @@
 class Mario extends Player {
   
   // true = against wall while in air
-  boolean wallJump = false;
-  
+  boolean wallJump;
   // true = on ground after jump
-  boolean landed = true;
-  
+  boolean landed;
   // keeps track of reaching max height
   // for variable jump heights
-  boolean reachMax = false;
+  boolean reachMax;
+  // true if mario is dead
+  boolean isDead;
   
   // constructs a Mario at given position x and y
   Mario(float x, float y) {
     super("Mario");
     setupStates();
     setPosition(x,y);
+    
+    // initialize state fields
+    wallJump = false;
+    landed = true;
+    reachMax = false;
+    isDead = false;
     
     // for gravity
     handleKey('W');
@@ -50,8 +56,12 @@ class Mario extends Player {
   
   // what happens when we touch another player or NPC?
   void overlapOccurredWith(Actor other, float[] direction) {
-      // get a reference to this TV
-      TV tv = (TV) other;
+      // get a reference to enemy
+      BigTV tv = new BigTV("temp", 0, 0);
+      if(other.name.contains("BIGTV")){
+        tv = (BigTV) other;  
+      }
+      
       
       // get the angle at which we've impacted with this TV
       float angle = direction[2];
@@ -78,7 +88,9 @@ class Mario extends Player {
   void die() {
     // switch to dead state
     setCurrentState("dead");
+    isDead = true;
     player.close();
+    bgMusic.close();
     playMusic("DeathSound.mp3");
     // turn off interaction, so we don't flag more touching koopas or pickups or walls, etc.
     setInteracting(false);
@@ -86,6 +98,11 @@ class Mario extends Player {
     addImpulse(0,-30);
     // and turn up gravity so we fall down quicker than usual.
     setForces(0,3);
+  }
+  
+  // return Mario's dead state
+  boolean getDead() {
+    return isDead;  
   }
   
   void handleInput() {

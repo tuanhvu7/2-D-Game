@@ -15,7 +15,8 @@ class MarioLayer1 extends LevelLayer {
     //addBackgroundSprite(new TilingSprite(new Sprite("sky.gif"),0,0,width,height));
     
     // floor
-    addBoundary(new Boundary(0,height-48,width,height-48));
+    //addBoundary(new Boundary(0,height-48,width,height-48));
+    addBoundary(new Boundary(0,height-48,1500,height-48));
     // left side
     addBoundary(new Boundary(-1,0, -1,height));
     // right side
@@ -26,7 +27,8 @@ class MarioLayer1 extends LevelLayer {
     
     mario = new Mario(50, height/2);
     addPlayer(mario);
-    addGround(-32,height-48, width+32,height);
+    //addGround(-32,height-48, width+32,height);
+    addGround(-32,height-48, 1500,height);
     
     
     
@@ -42,17 +44,24 @@ class MarioLayer1 extends LevelLayer {
     
     
     
-    TV tv = new TV(264, height-178);
-    addInteractor(tv);
+    //TV tv = new TV(264, height-178);
+    BigTV bigTV1 = new BigTV("BIGTV1", 250, 0);
+    addInteractor(bigTV1);
   }
   
   void draw() {
     super.draw();
     // for scrolling levels
     viewbox.track(parent, mario);
-    if(mario.y == -38.0) {
-      mario.die();
+    // die if go through ceiling
+    if(!mario.getDead()) {
+      if(mario.y == -38.0) {
+        mario.die();
+      } else if(mario.y >= height) { // die if fall in pit
+        mario.die();
+      }
     }
+
     //print(mario.y + "\n");
   }
   

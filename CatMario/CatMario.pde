@@ -16,43 +16,60 @@ http://processingjs.nihongoresources.com/test/PjsGameEngine/docs/tutorial/graphi
 final int screenWidth = 512;
 final int screenHeight = 432;
 
+// for gravity
 float DOWN_FORCE = 1.5; // 2
 float ACCELERATION = 0.5; //1.3
 float DAMPENING = 0.75; //0.75
 
+// length of jump and dead animations
 final int jumpDuration = 10;
 final int deadDuration = 100;
 
+// songs for different stages
+final String levelOneSong = "PrincessKenny.mp3";
+
 //// for sounds
 Minim minim = new Minim(this);
+// for player sound animations
 AudioPlayer player;
+// for background music
+AudioPlayer bgMusic;
 AudioInput input;
  
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
   frameRate(30);
   addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
-  loopMusic("PrincessKenny.mp3");
+  loopMusic(levelOneSong);
 }
 
 // resets level upon death
 void reset() {
   clearScreens();
   addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
-  player.close();
-  loopMusic("PrincessKenny.mp3");
+  player.close(); 
+  bgMusic.close();
+  loopMusic(levelOneSong);
 }
 
-// starts looping background music
+// looping background music
 void loopMusic(String songName) {
-  player = minim.loadFile(songName);
+  bgMusic = minim.loadFile(songName);
   input = minim.getLineIn();
-  player.loop();
+  bgMusic.loop();
 }
 
-// starts playingdound once
+// starts playing sound once
 void playMusic(String songName) {
   player = minim.loadFile(songName);
   input = minim.getLineIn();
   player.play();
+}
+
+
+// loads certain song in player
+// to stop music after multiple player changes
+void loadPlayer(String songName) {
+  player = minim.loadFile(songName);
+  input = minim.getLineIn();
 }
