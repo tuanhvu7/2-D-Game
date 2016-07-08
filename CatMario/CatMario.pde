@@ -21,31 +21,38 @@ float ACCELERATION = 0.5; //1.3
 float DAMPENING = 0.75; //0.75
 
 final int jumpDuration = 10;
-final int deadDuration = 75;
+final int deadDuration = 100;
+
+//// for sounds
+Minim minim = new Minim(this);
+AudioPlayer player;
+AudioInput input;
  
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
   frameRate(30);
   addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
+  loopMusic("PrincessKenny.mp3");
 }
 
 // resets level upon death
 void reset() {
   clearScreens();
-  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));  
+  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
+  player.close();
+  loopMusic("PrincessKenny.mp3");
 }
 
+// starts looping background music
+void loopMusic(String songName) {
+  player = minim.loadFile(songName);
+  input = minim.getLineIn();
+  player.loop();
+}
 
-
-
-
-  
-  
-
-
-
-
-
- 
- 
- 
+// starts playingdound once
+void playMusic(String songName) {
+  player = minim.loadFile(songName);
+  input = minim.getLineIn();
+  player.play();
+}

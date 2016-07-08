@@ -78,6 +78,8 @@ class Mario extends Player {
   void die() {
     // switch to dead state
     setCurrentState("dead");
+    player.close();
+    playMusic("DeathSound.mp3");
     // turn off interaction, so we don't flag more touching koopas or pickups or walls, etc.
     setInteracting(false);
     // make up jump up in an "oh no!" fashion
@@ -104,6 +106,7 @@ class Mario extends Player {
    
       // handle jumping
       if(isKeyDown('W') && active.name!="jumping" && boundaries.size()>0 && !wallJump && landed) {
+        playMusic("Jump.mp3");
         addImpulse(0,-50);
         setCurrentState("jumping");
         landed = false;

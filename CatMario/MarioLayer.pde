@@ -1,10 +1,10 @@
 // level layer for mario level
 // level layers have background, boundaries, enemies, characters, items, ect...
-class MarioLayer extends LevelLayer {
+class MarioLayer1 extends LevelLayer {
   
   Mario mario;
   Boundary top;
-  MarioLayer(Level owner) {
+  MarioLayer1(Level owner) {
     super(owner);
     
     // deals with background color and image

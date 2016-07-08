@@ -3,7 +3,7 @@
 class MarioLevel extends Level {  
   MarioLevel(float levelWidth, float levelHeight) {
     super(levelWidth, levelHeight);
-    addLevelLayer("layer", new MarioLayer(this));
+    addLevelLayer("layer", new MarioLayer1(this));
     setViewBox(0,0,screenWidth,screenHeight);
     //addLevelLayer("background", new BackgroundLayer(this));
   } 

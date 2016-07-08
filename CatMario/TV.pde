@@ -21,6 +21,7 @@ class TV extends Interactor {
   
   
   void squish() {
+    playMusic("Squish.mp3");
     removeActor();  
   }
   
