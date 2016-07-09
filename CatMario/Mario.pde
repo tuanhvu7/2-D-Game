@@ -81,9 +81,17 @@ class Mario extends Player {
       else if(other.name.contains("QBlock")) {
         QuestionBlock tv = (QuestionBlock) other;
         float angle = direction[2];
-        float tolerance = radians(75);
+        float tolerance = radians(45);
         if (3*PI/2 - tolerance <= angle && angle <= 3*PI/2 + tolerance) {
-          other.hit();
+          tv.hit();
+          this.stop();
+        }
+      } else if( other.name.contains("Brick")) {
+        Brick tv = (Brick) other;
+        float angle = direction[2];
+        float tolerance = radians(45);
+        if (3*PI/2 - tolerance <= angle && angle <= 3*PI/2 + tolerance) {
+          tv.hit();
           this.stop();
         }
       }

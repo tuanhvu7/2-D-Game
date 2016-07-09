@@ -1,11 +1,12 @@
-// a Question Mark block
-// releases items/objects when hit from below
-class QuestionBlock extends BoundedInteractor {
+// a brick block
+// can be stood on
+// and broken if hit from below
+class Brick extends BoundedInteractor {
   
     final int w = 60;
     // creates question block at position x and y
     // that contains given item
-  QuestionBlock(String name, float x, float y) {
+  Brick(String name, float x, float y) {
     super(name);
     setStates();
     setForces(0, 0);
@@ -13,7 +14,7 @@ class QuestionBlock extends BoundedInteractor {
     setPosition(x, y);
     
     // top boundary
-    addBoundary(new Boundary(x-w/2,y-w/2-1,x+w/2,y-w/2));
+    addBoundary(new Boundary(x-w/2,y-w/2,x+w/2,y-w/2));
     //// left side boundary
     addBoundary(new Boundary(x-w/2+1,y+w/2,x-w/2+1,y-w/2));
     //right side boundary
@@ -25,12 +26,9 @@ class QuestionBlock extends BoundedInteractor {
   // exhausted: block has been it. No longer yields items
   void setStates() {
     // walking state
-    State available = new State("Available", "Big-Coin-block.gif", 1, 4);
-    available.setAnimationSpeed(0.12);
-    addState(available);
-    State exhausted = new State("Exhausted", "Big-Coin-block-exhausted.gif");
-    addState(exhausted);
-    setCurrentState("Available");  
+    State exist = new State("Exist", "BigBrick.jpg");
+    addState(exist);
+    setCurrentState("Exist");  
   }
   
   // need this here for no error
@@ -38,19 +36,12 @@ class QuestionBlock extends BoundedInteractor {
   public void collisionOccured(Boundary boundary, Actor actor, float[] intersectionInformation) {
   }
   
-  // hitting block
+  // hitting brick
   void hit() {
-    if(active.name == "Available") {
-      setCurrentState("Exhausted");
-      playMusic("Coin.mp3");
+    if(active.name == "Exist") {
+      playMusic("BrickSmash.mp3");
+      removeActor();  
     }
-  }
-}
-
-// the regular coin pickup
-class Coin extends MarioPickup {
-  Coin(float x, float y) {
-    super("Coin", "Coin.gif", 1, 4, x, y, true);
   }
 }
   
