@@ -47,6 +47,8 @@ class MarioLayer1 extends LevelLayer {
     //TV tv = new TV(264, height-178);
     BigTV bigTV1 = new BigTV("BIGTV1", 250, 0);
     addInteractor(bigTV1);
+    
+    addBoundedInteractor(new QuestionBlock("QBlock1", 500, 264));  
   }
   
   void draw() {

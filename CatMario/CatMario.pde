@@ -39,14 +39,14 @@ AudioInput input;
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
   frameRate(30);
-  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
+  addScreen("level", new MarioLevel(7 * screenWidth, screenHeight));
   loopMusic(levelOneSong);
 }
 
 // resets level upon death
 void reset() {
   clearScreens();
-  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
+  addScreen("level", new MarioLevel(7 * screenWidth, screenHeight));
   player.close(); 
   bgMusic.close();
   loopMusic(levelOneSong);
@@ -72,4 +72,11 @@ void playMusic(String songName) {
 void loadPlayer(String songName) {
   player = minim.loadFile(songName);
   input = minim.getLineIn();
+}
+
+
+class MarioPickup extends Pickup {
+  MarioPickup(String name, String spritesheet, int rows, int columns, float x, float y, boolean visible) {
+    super(name, spritesheet, rows, columns, x, y, visible);
+  }
 }

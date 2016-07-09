@@ -35,6 +35,7 @@ class Mario extends Player {
   
   // sets up different images for character state
   // default state is idle
+  // run, jump, and dead states as well
   void setupStates() {
     addState(new State("idle", "RefSmallTien.png"));
     addState(new State("running", "RefRunTien.png",1,4));
@@ -56,34 +57,40 @@ class Mario extends Player {
   
   // what happens when we touch another player or NPC?
   void overlapOccurredWith(Actor other, float[] direction) {
-      // get a reference to enemy
-      BigTV tv = new BigTV("temp", 0, 0);
-      if(other.name.contains("BIGTV")){
-        tv = (BigTV) other;  
+      
+      if(other.name.contains("BIGTV")) {
+        BigTV tv = (BigTV) other;  
+          // get the angle at which we've impacted with this TV
+        float angle = direction[2];
+        // Now to find out whether we bopped a TV on the head!
+        float tolerance = radians(75);
+        if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
+          // we hit it from above!
+          // 1) squish the TV
+          tv.squish();
+          // Stop moving in whichever direction we were moving in
+          stop(0,0);
+          // instead, jump up!
+          setImpulse(0, -30);
+          setCurrentState("jumping");
+        } else { 
+          die(); 
+          isDead = true;
+        }
+      } 
+      else if(other.name.contains("QBlock")) {
+        QuestionBlock tv = (QuestionBlock) other;
+        float angle = direction[2];
+        float tolerance = radians(75);
+        if (3*PI/2 - tolerance <= angle && angle <= 3*PI/2 + tolerance) {
+          other.hit();
+          this.stop();
+        }
       }
       
       
-      // get the angle at which we've impacted with this TV
-      float angle = direction[2];
- 
-      // Now to find out whether we bopped a TV on the head!
-      float tolerance = radians(75);
-      if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
-        // we hit it from above!
-        // 1) squish the TV
-        tv.squish();
-        // Stop moving in whichever direction we were moving in
-        stop(0,0);
-        // instead, jump up!
-        setImpulse(0, -30);
-        setCurrentState("jumping");
-      }
- 
-      // if we didn't hit it at the correct angle, we still die =(
-      else { 
-        die(); 
-        isDead = true;
-      }
+      
+
   }
 
   void die() {
