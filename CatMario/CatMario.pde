@@ -43,14 +43,14 @@ boolean checkPoint = false;
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
   frameRate(30);
-  addScreen("level", new MarioLevel(7 * screenWidth, screenHeight));
+  addScreen("level", new MarioLevel(15 * screenWidth, screenHeight));
   loopMusic(levelOneSong);
 }
 
 // resets level upon death
 void reset() {
   clearScreens();
-  addScreen("level", new MarioLevel(7 * screenWidth, screenHeight));
+  addScreen("level", new MarioLevel(15 * screenWidth, screenHeight));
   player.close(); 
   bgMusic.close();
   loopMusic(levelOneSong);

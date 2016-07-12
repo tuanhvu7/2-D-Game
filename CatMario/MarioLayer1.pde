@@ -6,7 +6,22 @@ class MarioLayer1 extends LevelLayer {
   // keeps track if player got mushroom
   Boolean gotShroom;
   
-  final int faceWidth = 61;
+  final int smallFaceWidth = 61;
+  final int bigFaceWidth = 292;
+  
+  // army of TV
+  TV tv1 = new TV("TV", 1650, height-178);
+  TV tv2 = new TV("TV", 1650 + smallFaceWidth, height-178);
+  TV tv3 = new TV("TV", 1650 + 2*smallFaceWidth, height-178);
+  TV tv4 = new TV("TV", 1650 + 3*smallFaceWidth, height-178);
+  TV tv5 = new TV("TV", 1650 + 4*smallFaceWidth, height-178);
+  // tracks if big TVs has been created
+  boolean act1;
+  boolean act2;
+  boolean act3;
+  boolean act4;
+  boolean act5;
+  
   
   MarioLayer1(Level owner) {
     super(owner);
@@ -37,6 +52,12 @@ class MarioLayer1 extends LevelLayer {
     } else {
       
     }
+    
+    act1 = false;
+    act2 = false;
+    act3 = false;
+    act4 = false;
+    act5 = false;
 
     addGround(-32,height-groundHeight, width+32,height);
     //addGround(-32,height-48, 1500,height);
@@ -61,36 +82,65 @@ class MarioLayer1 extends LevelLayer {
     BigTV bigTV1 = new BigTV("BIGTV", 250, 0);
     addInteractor(bigTV1);
     
-    
+
     // groups of little TVs
-    TV tv1 = new TV("TV", 1500, height-178);
-    TV tv2 = new TV("TV", 1500 + faceWidth, height-178);
-    TV tv3 = new TV("TV", 1500 + 2*faceWidth, height-178);
-    TV tv4 = new TV("TV", 1500 + 3*faceWidth, height-178);
-    TV tv5 = new TV("TV", 1500 + 4*faceWidth, height-178);
-    addInteractor(tv1);
-    addInteractor(tv2);
-    addInteractor(tv3);
-    addInteractor(tv4);
-    addInteractor(tv5);
+    // that appear after Mario goes past x position 750
+    addTrigger(new TVTrigger(tv1, 750, 0, 5,height));
+    addTrigger(new TVTrigger(tv2, 750, 0, 5,height));
+    addTrigger(new TVTrigger(tv3, 750, 0, 5,height));
+    addTrigger(new TVTrigger(tv4, 750, 0, 5,height));
+    addTrigger(new TVTrigger(tv5, 750, 0, 5,height));
+    showTriggers = true;
+    
+    
+    //addInteractor(tv1);
+    //addInteractor(tv2);
+    //addInteractor(tv3);
+    //addInteractor(tv4);
+    //addInteractor(tv5);gger(new BigTVTrigger("BIGTV", 
+    
+    
+    
     
     
     // blocks and bricks near beginning of stage
     addBoundedInteractor(new QuestionBlock("QBlock1", "Coin", 500, 264)); 
-    addBoundedInteractor(new Brick("Brick1", 500 + faceWidth, 264));  
-    addBoundedInteractor(new QuestionBlock("QBlock2", "Coin", 500 + 2*faceWidth, 264)); 
+    addBoundedInteractor(new Brick("Brick1", 500 + smallFaceWidth, 264));  
+    addBoundedInteractor(new QuestionBlock("QBlock2", "Coin", 500 + 2*smallFaceWidth, 264)); 
   }
   
   void draw() {
     super.draw();
     // for scrolling levels
     viewbox.track(parent, mario);
-    // die if go through ceiling
+    
+    // die if go through ceiling or in pit
     if(!mario.getDead()) {
       if(mario.y == -38.0 || mario.y >= height) {
         mario.setDead();
         mario.die();
       } 
+    }
+    
+    if(tv1.remove && !act1) {
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, bigFaceWidth, 0));
+      act1 = true;
+    }
+    if(tv2.remove && !act2) {
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 2*bigFaceWidth, 0));
+      act2 = true;
+    }
+    if(tv3.remove && !act3) {
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 3*bigFaceWidth, 0));
+      act3 = true;
+    }
+    if(tv4.remove && !act4) {
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 4*bigFaceWidth, 0));
+      act4 = true;
+    }
+    if(tv5.remove && !act5) {
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 5*bigFaceWidth, 0));
+      act5 = true;
     }
 
     //print(mario.y + "\n");
