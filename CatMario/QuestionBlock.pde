@@ -1,19 +1,24 @@
 // a Question Mark block
 // releases items/objects when hit from below
 class QuestionBlock extends BoundedInteractor {
-  
-    final int w = 60;
+    // width of block
+    final int w = 61;
+    
+    // item that block holds
+    String item;
+    
     // creates question block at position x and y
     // that contains given item
-  QuestionBlock(String name, float x, float y) {
+  QuestionBlock(String name, String obj, float x, float y) {
     super(name);
+    item = obj;
     setStates();
     setForces(0, 0);
     setImpulseCoefficients(0, 0);
     setPosition(x, y);
     
     // top boundary
-    addBoundary(new Boundary(x-w/2,y-w/2-1,x+w/2,y-w/2));
+    addBoundary(new Boundary(x-w/2,y-w/2-1,x+w/2,y-w/2-1));
     //// left side boundary
     addBoundary(new Boundary(x-w/2+1,y+w/2,x-w/2+1,y-w/2));
     //right side boundary
@@ -25,10 +30,10 @@ class QuestionBlock extends BoundedInteractor {
   // exhausted: block has been it. No longer yields items
   void setStates() {
     // walking state
-    State available = new State("Available", "Big-Coin-block.gif", 1, 4);
+    State available = new State("Available", "Big-Item-block.gif", 1, 4);
     available.setAnimationSpeed(0.12);
     addState(available);
-    State exhausted = new State("Exhausted", "Big-Coin-block-exhausted.gif");
+    State exhausted = new State("Exhausted", "Big-Item-block-exhausted.gif");
     addState(exhausted);
     setCurrentState("Available");  
   }
@@ -42,15 +47,13 @@ class QuestionBlock extends BoundedInteractor {
   void hit() {
     if(active.name == "Available") {
       setCurrentState("Exhausted");
-      playMusic("Coin.mp3");
+      if(item.equals("Coin")) {
+        playMusic("Coin.mp3"); 
+      } else {
+        playMusic("Powerup.mp3"); 
+      }
+      
     }
-  }
-}
-
-// the regular coin pickup
-class Coin extends MarioPickup {
-  Coin(float x, float y) {
-    super("Coin", "Coin.gif", 1, 4, x, y, true);
   }
 }
   

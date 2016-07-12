@@ -25,6 +25,8 @@ float DAMPENING = 0.75; //0.75
 final int jumpDuration = 10;
 final int deadDuration = 100;
 
+final int groundHeight = 48;
+
 // songs for different stages
 final String levelOneSong = "PrincessKenny.mp3";
 
@@ -35,18 +37,20 @@ AudioPlayer player;
 // for background music
 AudioPlayer bgMusic;
 AudioInput input;
+
+boolean checkPoint = false;
  
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
   frameRate(30);
-  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
+  addScreen("level", new MarioLevel(7 * screenWidth, screenHeight));
   loopMusic(levelOneSong);
 }
 
 // resets level upon death
 void reset() {
   clearScreens();
-  addScreen("level", new MarioLevel(4 * screenWidth, screenHeight));
+  addScreen("level", new MarioLevel(7 * screenWidth, screenHeight));
   player.close(); 
   bgMusic.close();
   loopMusic(levelOneSong);
@@ -72,11 +76,4 @@ void playMusic(String songName) {
 void loadPlayer(String songName) {
   player = minim.loadFile(songName);
   input = minim.getLineIn();
-}
-
-
-class MarioPickup extends Pickup {
-  MarioPickup(String name, String spritesheet, int rows, int columns, float x, float y, boolean visible) {
-    super(name, spritesheet, rows, columns, x, y, visible);
-  }
 }

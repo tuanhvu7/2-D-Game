@@ -3,10 +3,14 @@
 class MarioLayer1 extends LevelLayer {
   
   Mario mario;
-  Boundary top;
+  // keeps track if player got mushroom
+  Boolean gotShroom;
+  
+  final int faceWidth = 61;
+  
   MarioLayer1(Level owner) {
     super(owner);
-    
+    gotShroom = false;
     // deals with background color and image
     setBackgroundColor(color(0, 100, 190));
     Sprite background_picture = new Sprite("sky.gif");
@@ -26,10 +30,16 @@ class MarioLayer1 extends LevelLayer {
     addBoundary(new Boundary(0,0, width,0));
     showBoundaries = true;
     
-    mario = new Mario(50, height/2);
-    addPlayer(mario);
-    addGround(-32,height-48, width+32,height);
-    addGround(-32,height-48, 1500,height);
+    // check if Mario hit checkpoint or not
+    if(!checkPoint) {
+       mario = new Mario(50, height/2);
+      addPlayer(mario); 
+    } else {
+      
+    }
+
+    addGround(-32,height-groundHeight, width+32,height);
+    //addGround(-32,height-48, 1500,height);
     
     
     
@@ -40,17 +50,35 @@ class MarioLayer1 extends LevelLayer {
     addGroundPlatform(976, height-126, 128, 78);
     
     // 2nd set of platforms
-    addGroundPlatform(1442, height-158, 128, 110);
-    addGroundPlatform(1442+64, height-126, 128, 78);  
+    addGroundPlatform(5000, height-158, 128, 110);
+    addGroundPlatform(5000+64, height-126, 128, 78);  
     
     
     
     //TV tv = new TV(264, height-178);
-    BigTV bigTV1 = new BigTV("BIGTV1", 250, 0);
+    
+    // Big TV in beginning
+    BigTV bigTV1 = new BigTV("BIGTV", 250, 0);
     addInteractor(bigTV1);
     
-    addBoundedInteractor(new Brick("Brick1", 500 + 61, 264));  
-    addBoundedInteractor(new QuestionBlock("QBlock1", 500, 264));  
+    
+    // groups of little TVs
+    TV tv1 = new TV("TV", 1500, height-178);
+    TV tv2 = new TV("TV", 1500 + faceWidth, height-178);
+    TV tv3 = new TV("TV", 1500 + 2*faceWidth, height-178);
+    TV tv4 = new TV("TV", 1500 + 3*faceWidth, height-178);
+    TV tv5 = new TV("TV", 1500 + 4*faceWidth, height-178);
+    addInteractor(tv1);
+    addInteractor(tv2);
+    addInteractor(tv3);
+    addInteractor(tv4);
+    addInteractor(tv5);
+    
+    
+    // blocks and bricks near beginning of stage
+    addBoundedInteractor(new QuestionBlock("QBlock1", "Coin", 500, 264)); 
+    addBoundedInteractor(new Brick("Brick1", 500 + faceWidth, 264));  
+    addBoundedInteractor(new QuestionBlock("QBlock2", "Coin", 500 + 2*faceWidth, 264)); 
   }
   
   void draw() {

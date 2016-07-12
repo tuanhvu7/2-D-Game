@@ -15,7 +15,7 @@ class TV extends Interactor {
   // TV can only walk
   void setStates() {
     // walking state
-    State walking = new State("idle", "RefBigRunTV.png", 1, 4);
+    State walking = new State("idle", "RefRunTV.png", 1, 4);
     walking.setAnimationSpeed(0.12);
     addState(walking);
   }

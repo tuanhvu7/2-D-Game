@@ -78,6 +78,26 @@ class Mario extends Player {
           isDead = true;
         }
       } 
+      else if(other.name.contains("TV")) {
+        TV tv = (TV) other;  
+          // get the angle at which we've impacted with this TV
+        float angle = direction[2];
+        // Now to find out whether we bopped a TV on the head!
+        float tolerance = radians(75);
+        if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
+          // we hit it from above!
+          // 1) squish the TV
+          tv.squish();
+          // Stop moving in whichever direction we were moving in
+          stop(0,0);
+          // instead, jump up!
+          setImpulse(0, -30);
+          setCurrentState("jumping");
+        } else { 
+          die(); 
+          isDead = true;
+        }
+      }
       else if(other.name.contains("QBlock")) {
         QuestionBlock tv = (QuestionBlock) other;
         float angle = direction[2];
@@ -86,7 +106,8 @@ class Mario extends Player {
           tv.hit();
           this.stop();
         }
-      } else if( other.name.contains("Brick")) {
+      } 
+      else if( other.name.contains("Brick")) {
         Brick tv = (Brick) other;
         float angle = direction[2];
         float tolerance = radians(45);
@@ -153,8 +174,7 @@ class Mario extends Player {
       // handle variable jump height
       // holding jump button while jumping
       if(isKeyDown('W') && active.name!="jumping" && !wallJump && !reachMax) {
-        //print("IN");
-        if(this.y > 150) {
+        if(this.y > 61) {
           addImpulse(0, -4);
           reachMax = true;
         }

@@ -3,7 +3,7 @@
 // and broken if hit from below
 class Brick extends BoundedInteractor {
   
-    final int w = 60;
+    final int w = 61;
     // creates question block at position x and y
     // that contains given item
   Brick(String name, float x, float y) {
@@ -14,7 +14,7 @@ class Brick extends BoundedInteractor {
     setPosition(x, y);
     
     // top boundary
-    addBoundary(new Boundary(x-w/2,y-w/2,x+w/2,y-w/2));
+    addBoundary(new Boundary(x-w/2,y-w/2-1,x+w/2,y-w/2-1));
     //// left side boundary
     addBoundary(new Boundary(x-w/2+1,y+w/2,x-w/2+1,y-w/2));
     //right side boundary
