@@ -55,72 +55,94 @@ class Mario extends Player {
   }
   
   
-  // what happens when we touch another player or NPC?
+  //// what happens when we touch another player or NPC?
+  //void overlapOccurredWith(Actor other, float[] direction) {
+      
+  //    if(other.name.contains("BIGTV")) {
+  //      BigTV tv = (BigTV) other;  
+  //        // get the angle at which we've impacted with this TV
+  //      float angle = direction[2];
+  //      // Now to find out whether we bopped a TV on the head!
+  //      float tolerance = radians(75);
+  //      if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
+  //        // we hit it from above!
+  //        // 1) squish the TV
+  //        tv.squish();
+  //        // Stop moving in whichever direction we were moving in
+  //        stop(0,0);
+  //        // instead, jump up!
+  //        setImpulse(0, -30);
+  //        setCurrentState("jumping");
+  //      } else { 
+  //        die(); 
+  //        isDead = true;
+  //      }
+  //    } 
+  //    else if(other.name.contains("TV")) {
+  //      TV tv = (TV) other;  
+  //        // get the angle at which we've impacted with this TV
+  //      float angle = direction[2];
+  //      // Now to find out whether we bopped a TV on the head!
+  //      float tolerance = radians(75);
+  //      if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
+  //        // we hit it from above!
+  //        // 1) squish the TV
+  //        tv.squish();
+  //        // Stop moving in whichever direction we were moving in
+  //        stop(0,0);
+  //        // instead, jump up!
+  //        setImpulse(0, -30);
+  //        setCurrentState("jumping");
+  //      } else { 
+  //        die(); 
+  //        isDead = true;
+  //      }
+  //    }
+  //}
+  
+  
+   /**
+   * What happens when we touch another actor?
+   */
   void overlapOccurredWith(Actor other, float[] direction) {
-      
-      if(other.name.contains("BIGTV")) {
-        BigTV tv = (BigTV) other;  
-          // get the angle at which we've impacted with this TV
-        float angle = direction[2];
-        // Now to find out whether we bopped a TV on the head!
-        float tolerance = radians(75);
-        if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
-          // we hit it from above!
-          // 1) squish the TV
-          tv.squish();
-          // Stop moving in whichever direction we were moving in
-          stop(0,0);
-          // instead, jump up!
-          setImpulse(0, -30);
-          setCurrentState("jumping");
-        } else { 
-          die(); 
-          isDead = true;
-        }
-      } 
-      else if(other.name.contains("TV")) {
-        TV tv = (TV) other;  
-          // get the angle at which we've impacted with this TV
-        float angle = direction[2];
-        // Now to find out whether we bopped a TV on the head!
-        float tolerance = radians(75);
-        if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
-          // we hit it from above!
-          // 1) squish the TV
-          tv.squish();
-          // Stop moving in whichever direction we were moving in
-          stop(0,0);
-          // instead, jump up!
-          setImpulse(0, -30);
-          setCurrentState("jumping");
-        } else { 
-          die(); 
-          isDead = true;
-        }
-      }
-      else if(other.name.contains("QBlock")) {
-        QuestionBlock tv = (QuestionBlock) other;
-        float angle = direction[2];
-        float tolerance = radians(45);
-        if (3*PI/2 - tolerance <= angle && angle <= 3*PI/2 + tolerance) {
-          tv.hit();
-          this.stop();
-        }
-      } 
-      else if( other.name.contains("Brick")) {
-        Brick tv = (Brick) other;
-        float angle = direction[2];
-        float tolerance = radians(45);
-        if (3*PI/2 - tolerance <= angle && angle <= 3*PI/2 + tolerance) {
-          tv.hit();
-          this.stop();
-        }
-      }
-      
-      
-      
+    // interact with killable enemy
+    if (other instanceof RegularMarioEnemy) {
+      RegularMarioEnemy enemy = (RegularMarioEnemy) other;
+      float angle = direction[2];
 
+      // We hopped on top of killable enemy!
+      float tolerance = radians(75);
+      if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
+        enemy.squish();
+        stop(0, 0);
+        setImpulse(0, -30);
+      }
+
+      // ran into enemy
+      else { 
+      die(); 
+      isDead = true;
+      }
+    } 
+    // inearact with un-killable enemy
+    else if(other instanceof InvincibleMarioEnemy) {  
+      die();
+      isDead = true;
+    }
   }
+  
+  //// get hurt/die from hitting enemy
+  //void hit() {
+  //  if(isDisabled()) return; 
+  //  if(type != "small") {
+  //    setSpriteType("small");
+  //    disableInteractionFor(30);
+  //    SoundManager.play("mario hit");
+  //    return;
+  //  }
+  //  // else:
+  //  die();
+  //}
 
   void die() {
     // switch to dead state

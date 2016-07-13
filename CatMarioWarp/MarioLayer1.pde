@@ -97,6 +97,10 @@ class MarioLayer1 extends LevelLayer {
     //addBoundedInteractor(new Brick("Brick1", 500 + smallFaceWidth, 264));  
     //addBoundedInteractor(new QuestionBlock("QBlock2", "Coin", 500 + 2*smallFaceWidth, 264)); 
     
+    // blocks and bricks near beginning of stage
+    addBoundedInteractor(new CoinBlock(500, 264));
+    addBoundedInteractor(new MarioBrick("Brick", 500+smallFaceWidth, 264));
+    
     
     
     // then, add two teleporters on either side of the gap

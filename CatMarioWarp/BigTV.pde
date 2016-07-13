@@ -1,6 +1,6 @@
 // a TV enemy
 // can only walk
-class BigTV extends Interactor {
+class BigTV extends RegularMarioEnemy {
   // creates TV at position x and y
   BigTV(String name, float x, float y) {
     super(name);
@@ -18,7 +18,6 @@ class BigTV extends Interactor {
     walking.setAnimationSpeed(0.12);
     addState(walking);
   }
-  
   
   void squish() {
     playMusic("Squish.mp3");
