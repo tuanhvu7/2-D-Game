@@ -54,53 +54,6 @@ class Mario extends Player {
     setCurrentState("idle");    
   }
   
-  
-  //// what happens when we touch another player or NPC?
-  //void overlapOccurredWith(Actor other, float[] direction) {
-      
-  //    if(other.name.contains("BIGTV")) {
-  //      BigTV tv = (BigTV) other;  
-  //        // get the angle at which we've impacted with this TV
-  //      float angle = direction[2];
-  //      // Now to find out whether we bopped a TV on the head!
-  //      float tolerance = radians(75);
-  //      if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
-  //        // we hit it from above!
-  //        // 1) squish the TV
-  //        tv.squish();
-  //        // Stop moving in whichever direction we were moving in
-  //        stop(0,0);
-  //        // instead, jump up!
-  //        setImpulse(0, -30);
-  //        setCurrentState("jumping");
-  //      } else { 
-  //        die(); 
-  //        isDead = true;
-  //      }
-  //    } 
-  //    else if(other.name.contains("TV")) {
-  //      TV tv = (TV) other;  
-  //        // get the angle at which we've impacted with this TV
-  //      float angle = direction[2];
-  //      // Now to find out whether we bopped a TV on the head!
-  //      float tolerance = radians(75);
-  //      if (PI/2 - tolerance <= angle && angle <= PI/2 + tolerance) {
-  //        // we hit it from above!
-  //        // 1) squish the TV
-  //        tv.squish();
-  //        // Stop moving in whichever direction we were moving in
-  //        stop(0,0);
-  //        // instead, jump up!
-  //        setImpulse(0, -30);
-  //        setCurrentState("jumping");
-  //      } else { 
-  //        die(); 
-  //        isDead = true;
-  //      }
-  //    }
-  //}
-  
-  
    /**
    * What happens when we touch another actor?
    */
@@ -131,6 +84,7 @@ class Mario extends Player {
     }
   }
   
+  /** Will be used laster for enemies with more durable enemies **/
   //// get hurt/die from hitting enemy
   //void hit() {
   //  if(isDisabled()) return; 
@@ -169,6 +123,8 @@ class Mario extends Player {
     isDead = true;  
   }
   
+  // handles character controls
+  // happens when w, a, s, d are pressed
   void handleInput() {
     
     if(active.name != "dead") {
@@ -237,5 +193,46 @@ class Mario extends Player {
       setCurrentState("idle");
     }
   }
+  
+  /** Power-up/item interactions for later **/  
+  /**
+  * What happens when we get pickups?
+  */
+  //void pickedUp(Pickup pickup) {
+  //  // we got some points
+  //  if (pickup.name=="Regular coin") {
+  //    score++;
+  //  }
+  //  // we got big points
+  //  else if (pickup.name=="Dragon coin") {
+  //    score+=100;
+  //  }
+  //  // we won!
+  //  else if (pickup.name=="Finish line") {
+  //    if (spriteSet == "rtype") {
+  //      setForces(0, DOWN_FORCE);
+  //      setAcceleration(0, ACCELERATION);
+  //    }
+  //    spriteSet = "mario";
+  //    Level level = layer.getLevel();
+  //    setCurrentState("won");
+  //    layer.parent.finish();
+  //  }
+  //  // big mario
+  //  else if (pickup.name=="Mushroom") {
+  //    setSpriteType("big");
+  //    disableInteractionFor(30);
+  //  }
+  //  // fire mario
+  //  else if (pickup.name=="Fire flower") {
+  //    // we could effect a full sprite swap here
+  //    canShoot = true;
+  //    setSpriteType("fire");
+  //  }
+  //  // key?
+  //  else if (pickup.name=="Key") {
+  //    getKey();
+  //  }
+  //}
   
 }

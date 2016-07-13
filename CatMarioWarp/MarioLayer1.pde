@@ -98,7 +98,8 @@ class MarioLayer1 extends LevelLayer {
     //addBoundedInteractor(new QuestionBlock("QBlock2", "Coin", 500 + 2*smallFaceWidth, 264)); 
     
     // blocks and bricks near beginning of stage
-    addBoundedInteractor(new CoinBlock(500, 264));
+    //addBoundedInteractor(new CoinBlock(500, 264));
+    addBoundedInteractor(new ShroomBlock(500, 264));
     addBoundedInteractor(new MarioBrick("Brick", 500+smallFaceWidth, 264));
     
     
