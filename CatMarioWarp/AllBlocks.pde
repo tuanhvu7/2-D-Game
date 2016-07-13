@@ -34,5 +34,6 @@ class ShroomBlock extends MarioBlock {
     m.setForces((angle<-1.5*PI ? 1:-1) * mushroom_speed, DOWN_FORCE);
     m.setAcceleration(0,0);
     layer.addForPlayerOnly(m);
+    playMusic("ItemAppears.wav"); 
   }
 }

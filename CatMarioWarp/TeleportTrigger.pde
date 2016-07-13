@@ -1,4 +1,5 @@
 class TeleportTrigger extends Trigger {
+  float popup_speed = -50;
   Lid lid;
   float teleport_x, teleport_y;
   
@@ -8,7 +9,9 @@ class TeleportTrigger extends Trigger {
   }
   
   // we'll need to enable the pipe lid when we teleport
-  void setLid(Lid l) { lid = l; }
+  void setLid(Lid l) { 
+    lid = l; 
+  }
   
   // we'll also need to know WHERE to teleport to =)
   void setDestination(float x, float y) {
@@ -18,14 +21,12 @@ class TeleportTrigger extends Trigger {
   
   // when the trigger is activated...
   void run(LevelLayer level, Actor actor, float[] intersection) {
-    //... enable the lid again, so it's a real boundary again,
-    lid.enable();
-    // and teleport the actor,
-    actor.setPosition(teleport_x,teleport_y);
-    // and give it an upward jump, 
-    actor.setImpulse(0,-50);
-    // and play the brrp brrp brrp sound!
-    playMusic("Pipe.mp3");
+    // spit mario back out
+    actor.stop();
+    actor.setPosition(teleport_x, teleport_y);
+    actor.setImpulse(0, popup_speed);
+    if (lid != null) {
+      lid.enable();
+    }
   }
-
 }

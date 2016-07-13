@@ -194,6 +194,15 @@ class Mario extends Player {
     }
   }
   
+  void pickedUp(Pickup pickup) {
+    if (pickup.name=="Coin") {
+      playMusic("Coin.mp3");
+    }
+    else if(pickup.name == "Shroom") {
+      playMusic("Powerup.mp3");  
+    }
+  }
+  
   /** Power-up/item interactions for later **/  
   /**
   * What happens when we get pickups?

@@ -1,6 +1,6 @@
 // level layer for mario level
 // level layers have background, boundaries, enemies, characters, items, ect...
-class MarioLayer1 extends LevelLayer {
+class Level1 extends MarioLayer {
   
   Mario mario;
   // keeps track if player got mushroom
@@ -23,7 +23,7 @@ class MarioLayer1 extends LevelLayer {
   boolean act5;
   
   
-  MarioLayer1(Level owner) {
+  Level1(Level owner) {
     super(owner);
     gotShroom = false;
     // deals with background color and image
@@ -90,7 +90,6 @@ class MarioLayer1 extends LevelLayer {
     addTrigger(new TVTrigger(tv3, 750, 0, 5,height));
     addTrigger(new TVTrigger(tv4, 750, 0, 5,height));
     addTrigger(new TVTrigger(tv5, 750, 0, 5,height));
-    //showTriggers = true;    
     
     //// blocks and bricks near beginning of stage
     //addBoundedInteractor(new QuestionBlock("QBlock1", "Coin", 500, 264)); 
@@ -98,19 +97,21 @@ class MarioLayer1 extends LevelLayer {
     //addBoundedInteractor(new QuestionBlock("QBlock2", "Coin", 500 + 2*smallFaceWidth, 264)); 
     
     // blocks and bricks near beginning of stage
-    //addBoundedInteractor(new CoinBlock(500, 264));
-    addBoundedInteractor(new ShroomBlock(500, 264));
+    addBoundedInteractor(new CoinBlock(500, 264));
+    //addBoundedInteractor(new ShroomBlock(500, 264));
     addBoundedInteractor(new MarioBrick("Brick", 500+smallFaceWidth, 264));
     
     
     
     // then, add two teleporters on either side of the gap
-    Pipe t1 = addPipe(600, height-48);
-    Pipe t2 = addPipe(800, height-48);
+    Pipe t1 = addPipe(600, height-48, null);
+    Pipe t2 = addPipe(800, height-48, null);
  
     // and we link them together, so they teleport to each other
     t1.teleportTo(t2);
     t2.teleportTo(t1);
+    
+    showTriggers = true;    
   }
   
   void draw() {
@@ -150,62 +151,7 @@ class MarioLayer1 extends LevelLayer {
     //print(mario.y + "\n");
   }
   
-  // creates dirt and grass ground visual
-  // x1 and y1 are top-left x/y coordinates for ground
-  // x2 x coordinate for the right-most edge of the rectangle we want to fill
-  void addGround(float x1, float y1, float x2, float y2) {
-    Sprite grassy = new Sprite("ground-top.gif");
-    TilingSprite groundline = new TilingSprite(grassy, x1,y1,x2,y1+16);
-    addBackgroundSprite(groundline);
- 
-    Sprite filler = new Sprite("ground-filler.gif");
-    TilingSprite groundfiller = new TilingSprite(filler, x1,y1+16,x2,y2);
-    addBackgroundSprite(groundfiller);
- 
-    addBoundary(new Boundary(x1,y1,x2,y1));
-  }
-  
-  // creates a ground platform
-  // whose top-left corner is defined by given x and y
-  // with given width and height w and h
-  void addGroundPlatform(float x, float y, float w, float h) {
-    // create our top soil layer
-    Sprite lc = new Sprite("ground-corner-left.gif");
-    lc.align(LEFT, TOP);
-    lc.setPosition(x, y);
-    Sprite tp = new Sprite("ground-top.gif");
-    Sprite rc = new Sprite("ground-corner-right.gif");
-    rc.align(LEFT, TOP);
-    rc.setPosition(x+w-rc.width, y);
-    TilingSprite toprow = new TilingSprite(tp, x+lc.width, y, x+(w-rc.width), y+tp.height);
- 
-    addBackgroundSprite(lc);
-    addBackgroundSprite(toprow);
-    addBackgroundSprite(rc);
- 
-    // sides/filler
-    TilingSprite sideleft  = new TilingSprite(new Sprite("ground-side-left.gif"), x, y+tp.height, x+lc.width, y+h);
-    TilingSprite filler    = new TilingSprite(new Sprite("ground-filler.gif"), x+lc.width, y+tp.height, x+(w-rc.width), y+h);
-    TilingSprite sideright = new TilingSprite(new Sprite("ground-side-right.gif"), x+w-rc.width, y+tp.height, x+w, y+h);
- 
-    addBackgroundSprite(sideleft);
-    addBackgroundSprite(filler);
-    addBackgroundSprite(sideright);
- 
-    // boundary to walk on
-    addBoundary(new Boundary(x, y, x+w, y));
-  }
-  
-  // add teleporter pipe
-  Pipe addPipe(float x, float y) {
-    Pipe p = new Pipe(x, y);
-    addBoundedInteractor(p);
-    addForegroundSprite(p.head);
-    addForegroundSprite(p.body);
-    addTrigger(p.trigger);
-    return p;
-  }
-  
+
   
   //Teleporter addTeleporter(float x, float y) {
   //  Teleporter t = new Teleporter(x, y);

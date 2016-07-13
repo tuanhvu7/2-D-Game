@@ -23,9 +23,9 @@ class Coin extends MarioPickup {
   Coin(float x, float y) {
     super("Coin", "Coin.gif", 1, 4, x, y, true);
   }
-  void pickedUp() { 
-    playMusic("Coin.mp3");
-  }
+  //void pickedUp() { 
+  //  playMusic("Coin.mp3");
+  //}
 }
 
 // the regular shroom pickup
@@ -35,7 +35,7 @@ class Shroom extends MarioPickup {
     setAcceleration(0,0);
   }
   
-  void pickedUp() { 
-    playMusic("PowerUp.mp3");
-  }
+  //void pickedUp() { 
+  //  playMusic("PowerUp.mp3");
+  //}
 }
