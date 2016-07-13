@@ -25,6 +25,9 @@ class TeleportTrigger extends Trigger {
     actor.stop();
     actor.setPosition(teleport_x, teleport_y);
     actor.setImpulse(0, popup_speed);
+    // returns forces to normal after pipe entry
+    actor.setForces(0,DOWN_FORCE);
+    actor.setAcceleration(0,ACCELERATION);
     if (lid != null) {
       lid.enable();
     }

@@ -102,12 +102,15 @@ class Level1 extends MarioLayer {
     // then, add two teleporters on either side of the gap
     //Pipe t1 = addPipe(600, height-48, new TeleportTrigger(800, height-48, pipeHeadDim - 5, 2));
     //Pipe t2 = addPipe(800, height-48, new TeleportTrigger(600, height-48, pipeHeadDim - 5, 2));
-    Pipe t1 = addPipe(600, height-48);
-    Pipe t2 = addPipe(800, height-48);
+    Pipe t1 = addPipe(600, height-48, true);
+    Pipe t2 = addPipe(800, height-48, true);
+    Pipe t3 = addPipe(1500, height-48, true);
  
     // and we link them together, so they teleport to each other
-    t1.teleportTo(t2);
-    t2.teleportTo(t1);
+    t1.teleportToPipe(t2);
+    t2.teleportToPipe(t3);
+    t3.teleportToPipe(t1);
+    //print(t1.x + "\n" + t2.x + "\n" + t3.x + "\n");
     
     showTriggers = true;    
   }
@@ -148,13 +151,4 @@ class Level1 extends MarioLayer {
 
     //print(mario.y + "\n");
   }
-  
-
-  
-  //Teleporter addTeleporter(float x, float y) {
-  //  Teleporter t = new Teleporter(x, y);
-  //  addBoundedInteractor(t);
-  //  return t;
-  //}
-  
 }

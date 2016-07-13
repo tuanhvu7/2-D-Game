@@ -59,9 +59,19 @@ abstract class MarioLayer extends LevelLayer {
     addBoundary(new Boundary(x, y, x+w, y));
   }
   
-  // add teleporter pipe
-  Pipe addPipe(float x, float y) {
-    Pipe p = new Pipe(x, y);
+  //// add teleporter pipe
+  //void addPipe(Pipe p) {
+  //  addBoundedInteractor(p);
+  //  addForegroundSprite(p.head);
+  //  addForegroundSprite(p.body);
+  //  addTrigger(p.trigger);
+  //}
+  
+  
+  // add pipe at specified location
+  // active means can teleport using it
+  Pipe addPipe(float x, float y, boolean active) {
+    Pipe p = new Pipe(x, y, active);
     addBoundedInteractor(p);
     addForegroundSprite(p.head);
     addForegroundSprite(p.body);

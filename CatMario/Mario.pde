@@ -184,6 +184,9 @@ class Mario extends Player {
             setCurrentState("crouching"); 
             for(Boundary b: boundaries) {
               if(b instanceof PipeBoundary) {
+                // slow down descent down pipe
+                setForces(0,DOWN_FORCE/5);
+                setAcceleration(0,ACCELERATION/5);
                 ((PipeBoundary)b).trigger(this);
               }
             }
@@ -198,7 +201,7 @@ class Mario extends Player {
       }
       
     }
-    print(active.name + "\n");
+    //print(active.name + "\n");
   }
   
   

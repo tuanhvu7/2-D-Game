@@ -2,10 +2,12 @@ class Pipe extends BoundedInteractor {
   PipeBoundary lid;
   Sprite head, body;
   TeleportTrigger trigger;
+  boolean active;
   
-  Pipe(float x, float y) {
+  Pipe(float x, float y, boolean act) {
     super("Pipe");
     setPosition(x,y);
+    active = act;
  
     // set up the sprite graphics
     head = new Sprite("Big-Pipe-head.gif");
@@ -14,10 +16,14 @@ class Pipe extends BoundedInteractor {
     body = new Sprite("Big-Pipe-body.gif");
     body.align(LEFT,BOTTOM);
     body.setPosition(x,y);
-    
-    // add the five boundaries, of which the top is a special "lid" boundary
-    lid = new PipeBoundary(x,y-pipeCombo, x+pipeHeadDim,y-pipeCombo);
-    addBoundary(lid);
+    if(active) {
+      // add the five boundaries, of which the top is a special "lid" boundary
+      lid = new PipeBoundary(x,y-pipeCombo, x+pipeHeadDim,y-pipeCombo);
+      addBoundary(lid);
+    } else {
+      addBoundary(new Boundary(x,y-pipeCombo, x+pipeHeadDim,y-pipeCombo));
+    }
+
     addBoundary(new Boundary(x+pipeHeadDim, y-pipeCombo, x+pipeHeadDim, y));
     addBoundary(new Boundary(x+pipeHeadDim, y, x, y));
     addBoundary(new Boundary(x, y, x, y-pipeCombo));
@@ -27,12 +33,17 @@ class Pipe extends BoundedInteractor {
  
     // and set up our teleport trigger
     trigger = new TeleportTrigger(x+2, y-20, pipeHeadDim - 5, 2);
-    //trigger = new TeleportTrigger(x, y-pipeCombo, pipeHeadDim, 2);
     trigger.setLid(lid);
   }
  
-  void teleportTo(Pipe other) {
-    trigger.setDestination(other.x+pipeBodyHeight, other.y-(3*pipeBodyHeight/2));
+  // teleport from one pipe to the other given pipe
+  void teleportToPipe(Pipe other) {
+    trigger.setDestination(other.x+pipeBodyHeight, other.y-(3*pipeBodyHeight/2) - 10);
+  }
+  
+  // teleport from pipe to another position
+  void teleportToPosition(float xPos, float yPos) {
+    
   }
   
   
