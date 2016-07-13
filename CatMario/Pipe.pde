@@ -1,5 +1,5 @@
 class Pipe extends BoundedInteractor {
-  Lid lid;
+  PipeBoundary lid;
   Sprite head, body;
   TeleportTrigger trigger;
   
@@ -16,7 +16,7 @@ class Pipe extends BoundedInteractor {
     body.setPosition(x,y);
     
     // add the five boundaries, of which the top is a special "lid" boundary
-    lid = new Lid(x,y-pipeCombo, x+pipeHeadDim,y-pipeCombo);
+    lid = new PipeBoundary(x,y-pipeCombo, x+pipeHeadDim,y-pipeCombo);
     addBoundary(lid);
     addBoundary(new Boundary(x+pipeHeadDim, y-pipeCombo, x+pipeHeadDim, y));
     addBoundary(new Boundary(x+pipeHeadDim, y, x, y));

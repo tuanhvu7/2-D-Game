@@ -9,7 +9,7 @@ class PipeBoundary extends Boundary {
   // used to effect "teleporting" in combination with the teleport trigger
   void trigger(Player p) {
     p.setPosition((x+xw)/2, y);
-    disable();
+    this.disable();
     playMusic("Pipe.mp3");
   }
 }

@@ -1,6 +1,6 @@
 class TeleportTrigger extends Trigger {
   float popup_speed = -50;
-  Lid lid;
+  PipeBoundary lid;
   float teleport_x, teleport_y;
   
   // we build a trigger with the classic "brrp brrp brrp" sound
@@ -9,7 +9,7 @@ class TeleportTrigger extends Trigger {
   }
   
   // we'll need to enable the pipe lid when we teleport
-  void setLid(Lid l) { 
+  void setLid(PipeBoundary l) { 
     lid = l; 
   }
   
