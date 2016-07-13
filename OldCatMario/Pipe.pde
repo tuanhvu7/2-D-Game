@@ -4,35 +4,34 @@ class Pipe extends BoundedInteractor {
   TeleportTrigger trigger;
   
   Pipe(float x, float y) {
-    super("Pipe");
+    super("Teleporter");
     setPosition(x,y);
  
     // set up the sprite graphics
-    head = new Sprite("Big-Pipe-head.gif");
+    head = new Sprite("graphics/assorted/Pipe-head.gif");
     head.align(LEFT,BOTTOM);
-    head.setPosition(x,y-pipeBodyHeight);
-    body = new Sprite("Big-Pipe-body.gif");
+    head.setPosition(x,y-16);
+    body = new Sprite("graphics/assorted/Pipe-body.gif");
     body.align(LEFT,BOTTOM);
     body.setPosition(x,y);
     
     // add the five boundaries, of which the top is a special "lid" boundary
-    lid = new Lid(x,y-pipeCombo, x+pipeHeadDim,y-pipeCombo);
+    lid = new Lid(x,y-48, x+32,y-48);
     addBoundary(lid);
-    addBoundary(new Boundary(x+pipeHeadDim, y-pipeCombo, x+pipeHeadDim, y));
-    addBoundary(new Boundary(x+pipeHeadDim, y, x, y));
-    addBoundary(new Boundary(x, y, x, y-pipeCombo));
+    addBoundary(new Boundary(x+32,y-48, x+32,y));
+    addBoundary(new Boundary(x+32,y, x,y));
+    addBoundary(new Boundary(x,y, x,y-48));
  
     // a hidden boundery inside the pipe, so we don't fall through
-    addBoundary(new Boundary(x+2, y-pipeBodyHeight/2, x+pipeHeadDim-5, y-pipeBodyHeight/2));
+    addBoundary(new Boundary(x,y-8, x+32,y-8));
  
     // and set up our teleport trigger
-    trigger = new TeleportTrigger(x+2, y-20, pipeHeadDim - 5, 2);
-    //trigger = new TeleportTrigger(x, y-pipeCombo, pipeHeadDim, 2);
+    trigger = new TeleportTrigger(x+2,y-10,28,2);
     trigger.setLid(lid);
   }
  
   void teleportTo(Pipe other) {
-    trigger.setDestination(other.x+pipeBodyHeight, other.y-(3*pipeBodyHeight/2));
+    trigger.setDestination(other.x+16, other.y-24);
   }
   
   

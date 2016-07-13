@@ -25,12 +25,6 @@ float DAMPENING = 0.75; //0.75
 final int jumpDuration = 10;
 final int deadDuration = 100;
 
-// dimensions of pipe images
-final int pipeHeadDim = 70;
-final int pipeBodyHeight = 35;
-final int pipeCombo = 105;
-
-// ground dimension
 final int groundHeight = 48;
 
 // songs for different stages

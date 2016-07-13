@@ -1,8 +1,9 @@
+
 // a TV enemy
 // can only walk
-class BigTV extends RegularMarioEnemy {
+class TV extends Interactor {
   // creates TV at position x and y
-  BigTV(String name, float x, float y) {
+  TV(String name, float x, float y) {
     super(name);
     setStates();
     setForces(-0.25, DOWN_FORCE);
@@ -14,10 +15,11 @@ class BigTV extends RegularMarioEnemy {
   // TV can only walk
   void setStates() {
     // walking state
-    State walking = new State("idle", "RefBigRunTV.png", 1, 4);
+    State walking = new State("idle", "RefRunTV.png", 1, 4);
     walking.setAnimationSpeed(0.12);
     addState(walking);
   }
+  
   
   void squish() {
     playMusic("Squish.mp3");
@@ -32,6 +34,5 @@ class BigTV extends RegularMarioEnemy {
       setHorizontalFlip(fx > 0);
     }
   }
-  
-  
 }
+  

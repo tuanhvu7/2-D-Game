@@ -579,12 +579,12 @@ class Boundary extends Positionable {
   /**
    * Enable this boundary
    */
-  void enable() { disabled = false;}
+  void enable() { disabled = false; }
 
   /**
    * Disable this boundary
    */
-  void disable() { disabled = true;}
+  void disable() { disabled = true; }
 
   /**
    * Is this positionable actually
@@ -655,7 +655,6 @@ class Boundary extends Positionable {
   float[] redirectForce(Positionable p, float fx, float fy) {
     return redirectForce(fx,fy);
   }
-
 
   /**
    * Can this object be drawn in this viewbox?
