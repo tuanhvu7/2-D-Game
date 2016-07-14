@@ -2,12 +2,16 @@
  * Coin block
  */
 class CoinBlock extends MarioBlock {
-  CoinBlock(float x, float y) {
+    // coin block constructed with given name and x, y positions
+    // see determines if block is visible
+  CoinBlock(float x, float y, boolean see) {
     super("Coin block", x, y);
+    visible = see;
   }
 
   void generate(float[] intersectionInformation) {
     Coin c = new Coin(getX(), getY()-height/2);
+    visible = true;
     c.setImpulse(0, -10);
     c.setForces(0, DOWN_FORCE);
     c.setAcceleration(0, ACCELERATION);

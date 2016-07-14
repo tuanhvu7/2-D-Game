@@ -4,7 +4,7 @@
  * when hit from below
  */
 class MarioBrick extends BoundedInteractor {
-
+  // mario brick constructed with given name and x, y positions
   MarioBrick(String name, float x, float y) {
     super(name);
     setPosition(x, y);

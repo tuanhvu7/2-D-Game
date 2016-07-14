@@ -16,7 +16,8 @@ abstract class MarioLayer extends LevelLayer {
   // creates dirt and grass ground visual
   // x1 and y1 are top-left x/y coordinates for ground
   // x2 x coordinate for the right-most edge of the rectangle we want to fill
-  void addGround(float x1, float y1, float x2, float y2) {
+  // solid determines whether or not ground is solid/walkable
+  void addGround(float x1, float y1, float x2, float y2, boolean solid) {
     Sprite grassy = new Sprite("ground-top.gif");
     TilingSprite groundline = new TilingSprite(grassy, x1,y1,x2,y1+16);
     addBackgroundSprite(groundline);
@@ -25,7 +26,10 @@ abstract class MarioLayer extends LevelLayer {
     TilingSprite groundfiller = new TilingSprite(filler, x1,y1+16,x2,y2);
     addBackgroundSprite(groundfiller);
  
-    addBoundary(new Boundary(x1,y1,x2,y1));
+    if(solid) {
+      addBoundary(new Boundary(x1,y1,x2,y1));
+    }
+    
   }
   
   // creates a ground platform

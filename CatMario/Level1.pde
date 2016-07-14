@@ -10,11 +10,11 @@ class Level1 extends MarioLayer {
   final int bigFaceWidth = 292;
   
   // army of TV
-  TV tv1 = new TV("TV", 1650, height-178);
-  TV tv2 = new TV("TV", 1650 + smallFaceWidth, height-178);
-  TV tv3 = new TV("TV", 1650 + 2*smallFaceWidth, height-178);
-  TV tv4 = new TV("TV", 1650 + 3*smallFaceWidth, height-178);
-  TV tv5 = new TV("TV", 1650 + 4*smallFaceWidth, height-178);
+  TV tv1 = new TV("TV", 1000, height-178);
+  TV tv2 = new TV("TV", 1000 + smallFaceWidth, height-178);
+  TV tv3 = new TV("TV", 1000 + 2*smallFaceWidth, height-178);
+  TV tv4 = new TV("TV", 1000 + 3*smallFaceWidth, height-178);
+  TV tv5 = new TV("TV", 1000 + 4*smallFaceWidth, height-178);
   // tracks if big TVs has been created
   boolean act1;
   boolean act2;
@@ -33,8 +33,17 @@ class Level1 extends MarioLayer {
     addBackgroundSprite(background);
     //addBackgroundSprite(new TilingSprite(new Sprite("sky.gif"),0,0,width,height));
     
-    // floor
-    addBoundary(new Boundary(0,height-48,width,height-48));
+
+    //ground and floor before big pit
+    addGround(-32,height-groundHeight, 1600, height, true);
+    addGround(1975,height-groundHeight, width+32, height, true);
+    
+    //addGround(-32,height-groundHeight, width+32,height, true);
+    
+    // floor after pit
+    
+    //addBoundary(new Boundary(0,height-48,width,height-48));
+    
     // floot with pit
     //addBoundary(new Boundary(0,height-48,1500,height-48));
     // left side
@@ -59,55 +68,46 @@ class Level1 extends MarioLayer {
     act4 = false;
     act5 = false;
 
-    addGround(-32,height-groundHeight, width+32,height);
-    //addGround(-32,height-48, 1500,height);
     
     
     
-    // 1st set of platforms  
-    addGroundPlatform(928, height-254, 96, 142);
-    addGroundPlatform(920, height-206, 32, 94);
-    addGroundPlatform(912, height-158, 128, 110);
-    addGroundPlatform(976, height-126, 128, 78);
+    //// 1st set of platforms  
+    //addGroundPlatform(928, height-254, 96, 142);
+    //addGroundPlatform(920, height-206, 32, 94);
+    //addGroundPlatform(912, height-158, 128, 110);
+    //addGroundPlatform(976, height-126, 128, 78);
     
     // 2nd set of platforms
     addGroundPlatform(5000, height-158, 128, 110);
     addGroundPlatform(5000+64, height-126, 128, 78);  
     
     
-    
-    //TV tv = new TV(264, height-178);
-    
     // Big TV in beginning
     BigTV bigTV1 = new BigTV("BIGTV", 250, 0);
     addInteractor(bigTV1);
     
+    //brick blocks near beginning
+    addBoundedInteractor(new MarioBrick("Brick", 500, 264));
 
     // groups of little TVs
     // that appear after Mario goes past x position 750
-    addTrigger(new TVTrigger(tv1, 750, 0, 5,height));
-    addTrigger(new TVTrigger(tv2, 750, 0, 5,height));
-    addTrigger(new TVTrigger(tv3, 750, 0, 5,height));
-    addTrigger(new TVTrigger(tv4, 750, 0, 5,height));
-    addTrigger(new TVTrigger(tv5, 750, 0, 5,height));
+    addTrigger(new TVTrigger(tv1, 500, 0, 5,height));
+    addTrigger(new TVTrigger(tv2, 500, 0, 5,height));
+    addTrigger(new TVTrigger(tv3, 500, 0, 5,height));
+    addTrigger(new TVTrigger(tv4, 500, 0, 5,height));
+    addTrigger(new TVTrigger(tv5, 500, 0, 5,height));
     
-    // blocks and bricks near beginning of stage
-    addBoundedInteractor(new CoinBlock(500, 264));
-    //addBoundedInteractor(new ShroomBlock(500, 264));
-    addBoundedInteractor(new MarioBrick("Brick", 500+smallFaceWidth, 264));
-    
-    // Pipes
-    Pipe t1 = addPipe(600, height-48, true);
-    //Pipe t2 = addPipe(800, height-48, true, false);
-    //Pipe t3 = addPipe(1500, height-48, true, false);
- 
-    // and we link them together, so they teleport to each other
-    //t1.teleportToPosition(600, -20);
-    t1.setShoot();
-    //t2.teleportToPipe(t3);
-    //t3.teleportToPipe(t1);
-    //print(t1.x + "\n" + t2.x + "\n" + t3.x + "\n");
-    
+    // Pipes before pit
+    Pipe p1 = addPipe(1250, height-48, true);
+    Pipe p2 = addPipe(1350, height-48, true);
+    p1.setShoot();
+    p2.teleportToPosition(1750, height);
+
+    //block at pit
+    addBoundedInteractor(new CoinBlock(1650, 200, false));
+
+    // for debugging
+    showBoundaries = true;
     showTriggers = true;    
   }
   
@@ -125,23 +125,23 @@ class Level1 extends MarioLayer {
     }
     
     if(tv1.remove && !act1) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 2*bigFaceWidth, 0));
       act1 = true;
     }
     if(tv2.remove && !act2) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 2*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 3*bigFaceWidth, 0));
       act2 = true;
     }
     if(tv3.remove && !act3) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 3*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 4*bigFaceWidth, 0));
       act3 = true;
     }
     if(tv4.remove && !act4) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 4*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 5*bigFaceWidth, 0));
       act4 = true;
     }
     if(tv5.remove && !act5) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 5*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 6*bigFaceWidth, 0));
       act5 = true;
     }
 

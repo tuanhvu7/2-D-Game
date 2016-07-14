@@ -7,7 +7,8 @@ abstract class MarioBlock extends BoundedInteractor {
 
   // how many "somethings" can be generated?
   int content = 1;
-
+  
+  // mario block constructed with given name and x, y positions
   MarioBlock(String name, float x, float y) {
     super(name);
     setPosition(x, y);
@@ -41,15 +42,19 @@ abstract class MarioBlock extends BoundedInteractor {
   }
 
   // generate something
-  public void collisionOccured(Boundary boundary, Actor other, float[] intersectionInformation) {
-    // do nothing if we can't generate anything (anymore)
-    if (content == 0) return;
+  public void collisionOccured(Boundary boundary, Actor other, float[] intersectionInformation) {    
     // otherwise, see if we need to generate something.
     if (other instanceof Player) {
-      // generate a "something"
-      generate(intersectionInformation);
-      // we can also generate 1 fewer things now
-      content--;
+      other.stop();
+      other.setCurrentState("jumping");
+      other.setImpulse(0, 10);
+      
+      if(content > 0) {
+        // generate a "something"
+        generate(intersectionInformation);
+        // we can also generate 1 fewer things now
+        content--;
+      }
       if (content == 0) {
         // nothing left to generate: change state
         setCurrentState("exhausted");

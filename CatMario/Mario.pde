@@ -99,6 +99,7 @@ class Mario extends Player {
   //  // else:
   //  die();
   //}
+  
 
   void die() {
     // switch to dead state
