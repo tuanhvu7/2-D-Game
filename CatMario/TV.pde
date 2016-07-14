@@ -1,4 +1,3 @@
-
 // a TV enemy
 // can only walk
 class TV extends RegularMarioEnemy {

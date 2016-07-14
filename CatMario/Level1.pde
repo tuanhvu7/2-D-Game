@@ -96,20 +96,16 @@ class Level1 extends MarioLayer {
     //addBoundedInteractor(new ShroomBlock(500, 264));
     addBoundedInteractor(new MarioBrick("Brick", 500+smallFaceWidth, 264));
     
-    //Pipe t1 = new Pipe(600, height-48);
-    //Pipe t2 = new Pipe(800, height-48);
-    
-    // then, add two teleporters on either side of the gap
-    //Pipe t1 = addPipe(600, height-48, new TeleportTrigger(800, height-48, pipeHeadDim - 5, 2));
-    //Pipe t2 = addPipe(800, height-48, new TeleportTrigger(600, height-48, pipeHeadDim - 5, 2));
+    // Pipes
     Pipe t1 = addPipe(600, height-48, true);
-    Pipe t2 = addPipe(800, height-48, true);
-    Pipe t3 = addPipe(1500, height-48, true);
+    //Pipe t2 = addPipe(800, height-48, true, false);
+    //Pipe t3 = addPipe(1500, height-48, true, false);
  
     // and we link them together, so they teleport to each other
-    t1.teleportToPipe(t2);
-    t2.teleportToPipe(t3);
-    t3.teleportToPipe(t1);
+    //t1.teleportToPosition(600, -20);
+    t1.setShoot();
+    //t2.teleportToPipe(t3);
+    //t3.teleportToPipe(t1);
     //print(t1.x + "\n" + t2.x + "\n" + t3.x + "\n");
     
     showTriggers = true;    

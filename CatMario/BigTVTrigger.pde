@@ -1,3 +1,5 @@
+// Points in the level that trigger BigTV enemies
+
 class BigTVTrigger extends Trigger {
   // these values will let us position a new Koopa trooper when triggered 
   float TV_x, TV_y;

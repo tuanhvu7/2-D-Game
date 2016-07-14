@@ -1,8 +1,18 @@
+/* Representation of pipe
+There are a few different types:
+1) Pipes that teleport you to other pipes
+3) Pipes that teleport you to other places
+2) Pipes that don't do anything or are exits only for teleporting
+4) Pipes that shoot you up
+*/
+
 class Pipe extends BoundedInteractor {
   PipeBoundary lid;
   Sprite head, body;
   TeleportTrigger trigger;
+  ShootTrigger sTrig;
   boolean active;
+  
   
   Pipe(float x, float y, boolean act) {
     super("Pipe");
@@ -30,10 +40,11 @@ class Pipe extends BoundedInteractor {
  
     // a hidden boundery inside the pipe, so we don't fall through
     addBoundary(new Boundary(x+2, y-pipeBodyHeight/2, x+pipeHeadDim-5, y-pipeBodyHeight/2));
- 
+
     // and set up our teleport trigger
     trigger = new TeleportTrigger(x+2, y-20, pipeHeadDim - 5, 2);
-    trigger.setLid(lid);
+    trigger.setLid(lid);    
+
   }
  
   // teleport from one pipe to the other given pipe
@@ -43,7 +54,11 @@ class Pipe extends BoundedInteractor {
   
   // teleport from pipe to another position
   void teleportToPosition(float xPos, float yPos) {
-    
+    trigger.setDestination(xPos, yPos);
+  }
+  
+  void setShoot() {
+    trigger.setShoot();      
   }
   
   

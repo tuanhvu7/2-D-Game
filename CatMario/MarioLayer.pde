@@ -1,5 +1,5 @@
 // Class for characteristics of every level
-// Should be able to add ground, platforms, and pipes
+// Has options to add ground, platforms, and pipes
 abstract class MarioLayer extends LevelLayer {
 
   // constructor

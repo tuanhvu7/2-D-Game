@@ -1,4 +1,4 @@
-// a TV enemy
+// a BigTV enemy
 // can only walk
 class BigTV extends RegularMarioEnemy {
   // creates TV at position x and y
