@@ -15,12 +15,8 @@ class Level1 extends MarioLayer {
   TV tv3 = new TV("TV", 1000 + 2*smallFaceWidth, height-178);
   TV tv4 = new TV("TV", 1000 + 3*smallFaceWidth, height-178);
   TV tv5 = new TV("TV", 1000 + 4*smallFaceWidth, height-178);
-  // tracks if big TVs has been created
+  // tracks if big TV has been created
   boolean act1;
-  boolean act2;
-  boolean act3;
-  boolean act4;
-  boolean act5;
   
   // cat enemy
   CatJumper cat;
@@ -53,7 +49,7 @@ class Level1 extends MarioLayer {
     // right side
     addBoundary(new Boundary(width+1,height, width+1,0));
     // top
-    addBoundary(new Boundary(0,0, width,0));
+    //addBoundary(new Boundary(0,0, width,0));
     showBoundaries = true;
     
   // check if Mario hit checkpoint or not
@@ -64,15 +60,7 @@ class Level1 extends MarioLayer {
       
   }
     
-    act1 = false;
-    act2 = false;
-    act3 = false;
-    act4 = false;
-    act5 = false;
-
-    
-    
-    
+    act1 = false;  
     //// 1st set of platforms  
     //addGroundPlatform(928, height-254, 96, 142);
     //addGroundPlatform(920, height-206, 32, 94);
@@ -110,7 +98,7 @@ class Level1 extends MarioLayer {
     
     // cat enemy in middle
     cat = new CatJumper("Cat", 500, height-100);
-    addInteractor(cat);
+    //addInteractor(cat);
     
     
 
@@ -127,31 +115,15 @@ class Level1 extends MarioLayer {
     if(!mario.getDead()) {
       
       cat.jump();
-      if(mario.y == -38.0 || mario.y >= height) {
+      if(mario.y <= -38.0 || mario.y >= height) {
         mario.setDead();
         mario.die();
       } 
     }
     
-    if(tv1.remove && !act1) {
+    if((tv1.remove || tv2.remove || tv3.remove  || tv4.remove  || tv5.remove) && !act1) {
       addTrigger(new BigTVTrigger(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
       act1 = true;
-    }
-    if(tv2.remove && !act2) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 2.5*bigFaceWidth, 0));
-      act2 = true;
-    }
-    if(tv3.remove && !act3) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 3.5*bigFaceWidth, 0));
-      act3 = true;
-    }
-    if(tv4.remove && !act4) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 4.5*bigFaceWidth, 0));
-      act4 = true;
-    }
-    if(tv5.remove && !act5) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 5.5*bigFaceWidth, 0));
-      act5 = true;
     }
     //print(mario.y + "\n");
   }

@@ -34,9 +34,15 @@ class Pipe extends BoundedInteractor {
       addBoundary(new Boundary(x,y-pipeCombo, x+pipeHeadDim,y-pipeCombo));
     }
 
-    addBoundary(new Boundary(x+pipeHeadDim, y-pipeCombo, x+pipeHeadDim, y));
+    // right side boundary
+    addBoundary(new Boundary(x+pipeHeadDim, y-pipeCombo+1, x+pipeHeadDim, y));
+    addBoundary(new Boundary(x+pipeHeadDim, y, x+pipeHeadDim, y-pipeCombo+1));
+
     addBoundary(new Boundary(x+pipeHeadDim, y, x, y));
-    addBoundary(new Boundary(x, y, x, y-pipeCombo));
+    
+    // left side boundary
+    addBoundary(new Boundary(x, y, x, y-pipeCombo+1));
+    addBoundary(new Boundary(x, y-pipeCombo+1, x, y));
  
     // a hidden boundery inside the pipe, so we don't fall through
     addBoundary(new Boundary(x+2, y-pipeBodyHeight/2, x+pipeHeadDim-5, y-pipeBodyHeight/2));

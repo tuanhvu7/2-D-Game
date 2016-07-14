@@ -186,8 +186,8 @@ class Mario extends Player {
             for(Boundary b: boundaries) {
               if(b instanceof PipeBoundary) {
                 // slow down descent down pipe
-                setForces(0,DOWN_FORCE/5);
-                setAcceleration(0,ACCELERATION/5);
+                setForces(0,DOWN_FORCE/4.5);
+                setAcceleration(0,ACCELERATION/4.5);
                 ((PipeBoundary)b).trigger(this);
               }
             }
