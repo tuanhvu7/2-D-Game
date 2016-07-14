@@ -11,7 +11,7 @@ class CatJumper extends RegularMarioEnemy {
   // for variable jump heights
   boolean reachMax;
   
-  // creates Cat at position x and y
+  // creates Cat at position x and y with given name
   CatJumper(String name, float x, float y) {
     super(name);
     setStates();
@@ -23,10 +23,9 @@ class CatJumper extends RegularMarioEnemy {
     
     // for control and gravity
     handleKey('W');
-    setForces(0,DOWN_FORCE);
     setAcceleration(0,ACCELERATION);
     setImpulseCoefficients(DAMPENING,DAMPENING);
-    setForces(-2, DOWN_FORCE);
+    setForces(-3, DOWN_FORCE);
     setPosition(x, y);
   }
   

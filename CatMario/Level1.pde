@@ -98,13 +98,20 @@ class Level1 extends MarioLayer {
     
         
     // 2nd set of platforms
-    addGroundPlatform(2500, height-158, 128, 110);
-    //addGroundPlatform(2500+64, height-126, 128, 78);  
+    addGroundPlatform(2300, height-158, 128, 110);
     cat = new CatJumper("Cat", 3500, 0);
-    //CatJumper c, float x, float y, float w, float h
-    //float x, float y, float w, float h, float _kx, float _ky
     addTrigger(new CatTrigger(cat, 2500, 0, 5, height));
-    //addInteractor(cat);
+    
+    
+      // our constructor is pretty straight forward. The first four float values
+  // are where the trigger is in the left, the last two where a new Happy
+  // should be made, relative to trigger.
+  //HappyTrigger2(float x, float y, float w, float h, float _kx, float _ky) {  
+    // Happys in a row
+    addTrigger(new HappyTrigger2(3000, 0, 5, height, 350, 250));
+    addTrigger(new HappyTrigger2(3000, 0, 5, height, 550, 175));
+    addTrigger(new BigHappyTrigger2(3000, 0, 5, height, 850, 200));
+
     
     
 
@@ -131,7 +138,7 @@ class Level1 extends MarioLayer {
     }
     
     if((tv1.remove || tv2.remove || tv3.remove  || tv4.remove  || tv5.remove) && !act1) {
-      //addTrigger(new BigTVTrigger(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
+      //addTrigger(new BigTVTrigger2(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
       act1 = true;
     }
     //print(mario.y + "\n");
