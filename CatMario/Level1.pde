@@ -32,18 +32,14 @@ class Level1 extends MarioLayer {
     //addBackgroundSprite(new TilingSprite(new Sprite("sky.gif"),0,0,width,height));
     
 
-    //ground and floor before big pit
+    //ground and floor throughout level
     addGround(-32,height-groundHeight, 1600, height, true);
-    addGround(1975,height-groundHeight, width+32, height, true);
+    addGround(1975,height-groundHeight, 3500, height, true);
+    addBoundary(new Boundary(3500,height-groundHeight, 3650, height-groundHeight));
+    addGround(3700,height-groundHeight, 3800, height, false);
+    addGround(3800,height-groundHeight, width+32, height, true);
     
     //addGround(-32,height-groundHeight, width+32,height, true);
-    
-    // floor after pit
-    
-    //addBoundary(new Boundary(0,height-48,width,height-48));
-    
-    // floot with pit
-    //addBoundary(new Boundary(0,height-48,1500,height-48));
     // left side
     addBoundary(new Boundary(-1,0, -1,height));
     // right side
@@ -52,24 +48,11 @@ class Level1 extends MarioLayer {
     //addBoundary(new Boundary(0,0, width,0));
     
     
-  mario = new Mario(50, height/2);
-  addPlayer(mario); 
-  //// check if Mario hit checkpoint or not
-  //if(!checkPoint) {
-  //  mario = new Mario(50, height/2);
-  //  addPlayer(mario); 
-  //} else {
-      
-  //}
+    //mario = new Mario(50, height/2);
+    mario = new Mario(3800, height/2);
+    addPlayer(mario); 
     
     act1 = false;  
-    //// 1st set of platforms  
-    //addGroundPlatform(928, height-254, 96, 142);
-    //addGroundPlatform(920, height-206, 32, 94);
-    //addGroundPlatform(912, height-158, 128, 110);
-    //addGroundPlatform(976, height-126, 128, 78);
-    
-    
     // Big TV in beginning
     BigTV bigTV1 = new BigTV("BIGTV", 250, 0);
     addInteractor(bigTV1);
@@ -102,15 +85,10 @@ class Level1 extends MarioLayer {
     cat = new CatJumper("Cat", 3500, 0);
     addTrigger(new CatTrigger(cat, 2500, 0, 5, height));
     
-    
-      // our constructor is pretty straight forward. The first four float values
-  // are where the trigger is in the left, the last two where a new Happy
-  // should be made, relative to trigger.
-  //HappyTrigger2(float x, float y, float w, float h, float _kx, float _ky) {  
     // Happys in a row
-    addTrigger(new HappyTrigger2(3000, 0, 5, height, 350, 250));
-    addTrigger(new HappyTrigger2(3000, 0, 5, height, 550, 175));
-    addTrigger(new BigHappyTrigger2(3000, 0, 5, height, 850, 200));
+    addTrigger(new HappyTrigger2(3000, 0, 5, height, 345, 275));
+    addTrigger(new HappyTrigger2(3000, 0, 5, height, 545, 175));
+    addTrigger(new BigHappyTrigger2(3000, 0, 5, height, 850, 155));
 
     
     

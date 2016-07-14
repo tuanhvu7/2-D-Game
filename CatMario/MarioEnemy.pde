@@ -15,7 +15,7 @@ abstract class RegularMarioEnemy extends Interactor {
     removeActor();  
   }
   
-    // reverse movement direction when this enemy meets a boundary
+  // reverse movement direction when this enemy meets a boundary
   void gotBlocked(Boundary b, float[] intersection, float[] original) {
     // is the boundary vertical?
     if (b.x == b.xw) {
@@ -36,4 +36,14 @@ abstract class BoundedMarioEnemy extends BoundedInteractor {
 abstract class InvincibleMarioEnemy extends Interactor {
   InvincibleMarioEnemy(String name) { super(name); } 
   InvincibleMarioEnemy(String name, float x, float y) { super(name, x, y); } 
+  
+    // reverse movement direction when this enemy meets a boundary
+  void gotBlocked(Boundary b, float[] intersection, float[] original) {
+    // is the boundary vertical?
+    if (b.x == b.xw) {
+      // yes it is. Reverse direction!
+      fx = -fx;
+      setHorizontalFlip(fx > 0);
+    }
+  }
 }
