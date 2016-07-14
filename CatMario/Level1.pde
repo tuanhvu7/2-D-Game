@@ -50,15 +50,17 @@ class Level1 extends MarioLayer {
     addBoundary(new Boundary(width+1,height, width+1,0));
     // top
     //addBoundary(new Boundary(0,0, width,0));
-    showBoundaries = true;
     
-  // check if Mario hit checkpoint or not
-  if(!checkPoint) {
-     mario = new Mario(50, height/2);
-    addPlayer(mario); 
-  } else {
+    
+  mario = new Mario(50, height/2);
+  addPlayer(mario); 
+  //// check if Mario hit checkpoint or not
+  //if(!checkPoint) {
+  //  mario = new Mario(50, height/2);
+  //  addPlayer(mario); 
+  //} else {
       
-  }
+  //}
     
     act1 = false;  
     //// 1st set of platforms  
@@ -66,10 +68,6 @@ class Level1 extends MarioLayer {
     //addGroundPlatform(920, height-206, 32, 94);
     //addGroundPlatform(912, height-158, 128, 110);
     //addGroundPlatform(976, height-126, 128, 78);
-    
-    // 2nd set of platforms
-    addGroundPlatform(5000, height-158, 128, 110);
-    addGroundPlatform(5000+64, height-126, 128, 78);  
     
     
     // Big TV in beginning
@@ -97,7 +95,15 @@ class Level1 extends MarioLayer {
     addBoundedInteractor(new CoinBlock(1650, 200, false));
     
     // cat enemy in middle
-    cat = new CatJumper("Cat", 500, height-100);
+    
+        
+    // 2nd set of platforms
+    addGroundPlatform(2500, height-158, 128, 110);
+    //addGroundPlatform(2500+64, height-126, 128, 78);  
+    cat = new CatJumper("Cat", 3500, 0);
+    //CatJumper c, float x, float y, float w, float h
+    //float x, float y, float w, float h, float _kx, float _ky
+    addTrigger(new CatTrigger(cat, 2500, 0, 5, height));
     //addInteractor(cat);
     
     
@@ -114,7 +120,10 @@ class Level1 extends MarioLayer {
     // die if go through ceiling or in pit
     if(!mario.getDead()) {
       
-      cat.jump();
+      if(cat != null) {
+        cat.jump(); 
+      }
+      
       if(mario.y <= -38.0 || mario.y >= height) {
         mario.setDead();
         mario.die();
@@ -122,7 +131,7 @@ class Level1 extends MarioLayer {
     }
     
     if((tv1.remove || tv2.remove || tv3.remove  || tv4.remove  || tv5.remove) && !act1) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
+      //addTrigger(new BigTVTrigger(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
       act1 = true;
     }
     //print(mario.y + "\n");

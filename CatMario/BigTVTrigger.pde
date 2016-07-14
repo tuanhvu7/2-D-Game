@@ -4,7 +4,7 @@ class BigTVTrigger extends Trigger {
   // these values will let us position a new Koopa trooper when triggered 
   float TV_x, TV_y;
   // our constructor is pretty straight forward. The first four float values
-  // are where the trigger is in the left, the last two where a new TV
+  // are where the trigger is in the left, the last two where a new BigTV
   // should be made, relative to trigger.
   BigTVTrigger(float x, float y, float w, float h, float _kx, float _ky) {  
     super("BIGTVs", x, y, w, h);
