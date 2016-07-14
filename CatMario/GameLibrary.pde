@@ -1487,6 +1487,7 @@ public abstract class Interactor extends Actor {
   
   // Interactors are not playable
   final void handleInput() {}
+
 }
 /**
  * JavaScript interface, to enable console.log

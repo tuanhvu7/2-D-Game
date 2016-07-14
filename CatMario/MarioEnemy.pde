@@ -8,7 +8,21 @@
 abstract class RegularMarioEnemy extends Interactor {
   RegularMarioEnemy(String name) { super(name); } 
   RegularMarioEnemy(String name, float x, float y) { super(name, x, y); } 
-  void squish() { 
+  
+  // this enemy has been killed and removed from game
+  void squish() {
+    playMusic("Squish.mp3");
+    removeActor();  
+  }
+  
+    // reverse movement direction when this enemy meets a boundary
+  void gotBlocked(Boundary b, float[] intersection, float[] original) {
+    // is the boundary vertical?
+    if (b.x == b.xw) {
+      // yes it is. Reverse direction!
+      fx = -fx;
+      setHorizontalFlip(fx > 0);
+    }
   }
 }
 

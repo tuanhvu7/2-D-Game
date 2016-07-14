@@ -22,6 +22,8 @@ class Level1 extends MarioLayer {
   boolean act4;
   boolean act5;
   
+  // cat enemy
+  CatJumper cat;
   
   Level1(Level owner) {
     super(owner);
@@ -105,6 +107,12 @@ class Level1 extends MarioLayer {
 
     //block at pit
     addBoundedInteractor(new CoinBlock(1650, 200, false));
+    
+    // cat enemy in middle
+    cat = new CatJumper("Cat", 500, height-100);
+    addInteractor(cat);
+    
+    
 
     // for debugging
     showBoundaries = true;
@@ -115,9 +123,10 @@ class Level1 extends MarioLayer {
     super.draw();
     // for scrolling levels
     viewbox.track(parent, mario);
-    
     // die if go through ceiling or in pit
     if(!mario.getDead()) {
+      
+      cat.jump();
       if(mario.y == -38.0 || mario.y >= height) {
         mario.setDead();
         mario.die();
@@ -125,26 +134,25 @@ class Level1 extends MarioLayer {
     }
     
     if(tv1.remove && !act1) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 2*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
       act1 = true;
     }
     if(tv2.remove && !act2) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 3*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 2.5*bigFaceWidth, 0));
       act2 = true;
     }
     if(tv3.remove && !act3) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 4*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 3.5*bigFaceWidth, 0));
       act3 = true;
     }
     if(tv4.remove && !act4) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 5*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 4.5*bigFaceWidth, 0));
       act4 = true;
     }
     if(tv5.remove && !act5) {
-      addTrigger(new BigTVTrigger(2000, 0, 5, height, 6*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger(2000, 0, 5, height, 5.5*bigFaceWidth, 0));
       act5 = true;
     }
-
     //print(mario.y + "\n");
   }
 }

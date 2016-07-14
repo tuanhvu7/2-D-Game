@@ -24,7 +24,7 @@ class Mario extends Player {
     reachMax = false;
     isDead = false;
     
-    // for gravity
+    // for control and gravity
     handleKey('W');
     handleKey('A');
     handleKey('D');
@@ -202,6 +202,7 @@ class Mario extends Player {
       }
       
     }
+    
     //print(active.name + "\n");
   }
   
