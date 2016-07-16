@@ -49,7 +49,7 @@ class Level1 extends MarioLayer {
     
     
     //mario = new Mario(50, height/2);
-    mario = new Mario(3800, height/2);
+    mario = new Mario(4000, height/2);
     addPlayer(mario); 
     
     act1 = false;  
@@ -69,10 +69,10 @@ class Level1 extends MarioLayer {
     addTrigger(new TVTrigger(tv5, 500, 0, 5,height));
     
     // Pipes before pit
-    Pipe p1 = addPipe(1250, height-48, true);
-    Pipe p2 = addPipe(1350, height-48, true);
-    p1.setShoot();
-    p2.teleportToPosition(1750, height);
+    Pipe shoot = addPipe(1250, height-48, true);
+    Pipe pitTele = addPipe(1350, height-48, true);
+    shoot.setShoot();
+    pitTele.teleportToPosition(1750, height);
 
     //block at pit
     addBoundedInteractor(new CoinBlock(1650, 200, false));
@@ -90,8 +90,38 @@ class Level1 extends MarioLayer {
     addTrigger(new HappyTrigger2(3000, 0, 5, height, 545, 175));
     addTrigger(new BigHappyTrigger2(3000, 0, 5, height, 850, 155));
 
+    // pipes later in stage
+    Pipe badEndTele = addPipe(3950, height-48, true);
+    Pipe teemo = addPipe(4050, height-48, false);
+    Pipe good = addPipe(4150, height-48, true);
+    Pipe toTeemo = addPipe(4350, height-48, true);
     
+    Pipe badEnd = addPipe(5100, height-48, true);
+    //blocks near end
+    addBoundedInteractor(new MarioBrick("Brick", 5060, 353));
+    addBoundedInteractor(new MarioBrick("Brick", 5060, 353-smallFaceWidth));
+    addBoundedInteractor(new MarioBrick("Brick", 5060, 353-2*smallFaceWidth));
+    addBoundedInteractor(new CoinBlock(5135, 353-3*smallFaceWidth-10, false));
+    addBoundedInteractor(new MarioBrick("Brick", 5210, 353));
+    addBoundedInteractor(new MarioBrick("Brick", 5210, 353-smallFaceWidth));
+    addBoundedInteractor(new MarioBrick("Brick", 5210, 353-2*smallFaceWidth));
+
     
+    // where pipes are connected to
+    badEndTele.teleportToPipe(badEnd);
+    good.teleportToPipe(toTeemo);
+    toTeemo.teleportToPipe(teemo);
+    badEnd.teleportToPipe(teemo);
+    
+    Teemo tmo = new Teemo("Teemo", 4080, height-185);
+    addInteractor(tmo);
+    
+    Flag finish = new Flag(5400, 190);
+    addForPlayerOnly(finish);
+    
+    // troll in end
+    SmallTroll troll = new SmallTroll("Melvin", 5550, 0);
+    addInteractor(troll);
 
     // for debugging
     showBoundaries = true;
@@ -116,7 +146,7 @@ class Level1 extends MarioLayer {
     }
     
     if((tv1.remove || tv2.remove || tv3.remove  || tv4.remove  || tv5.remove) && !act1) {
-      //addTrigger(new BigTVTrigger2(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger2(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
       act1 = true;
     }
     //print(mario.y + "\n");

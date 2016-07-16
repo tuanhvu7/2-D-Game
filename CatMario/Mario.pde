@@ -81,6 +81,7 @@ class Mario extends Player {
     } 
     // inearact with un-killable enemy
     else if(other instanceof InvincibleMarioEnemy) {  
+      other.visible = true;
       die();
       isDead = true;
     }

@@ -39,3 +39,14 @@ class Shroom extends MarioPickup {
   //  playMusic("PowerUp.mp3");
   //}
 }
+
+
+
+// end flag pickup
+// for finishing stage
+class Flag extends MarioPickup {
+  Flag(float x, float y) {
+    super("Flag", "RefFlagPole.png", 1, 1, x, y, true);
+  }
+}
+  
