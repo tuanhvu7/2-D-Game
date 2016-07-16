@@ -40,8 +40,6 @@ class Shroom extends MarioPickup {
   //}
 }
 
-
-
 // end flag pickup
 // for finishing stage
 class Flag extends MarioPickup {

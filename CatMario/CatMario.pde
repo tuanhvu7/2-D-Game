@@ -24,6 +24,7 @@ float DAMPENING = 0.75; //0.75
 // length of jump and dead animations
 final int jumpDuration = 10;
 final int deadDuration = 100;
+final int wonDuration = 100;
 
 // dimensions of pipe images
 final int pipeHeadDim = 70;

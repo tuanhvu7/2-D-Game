@@ -11,6 +11,8 @@ class Mario extends Player {
   boolean reachMax;
   // true if mario is dead
   boolean isDead;
+  // true if mario has won
+  boolean hasWon;
   
   // constructs a Mario at given position x and y
   Mario(float x, float y) {
@@ -52,6 +54,10 @@ class Mario extends Player {
     dead.setAnimationSpeed(0.25);
     dead.setDuration(deadDuration);
     addState(dead);
+    
+    State won = new State("won", "RefRunTien.png", 1, 4);
+    won.setDuration(wonDuration);
+    addState(won);
     
     setCurrentState("idle");    
   }
@@ -106,6 +112,9 @@ class Mario extends Player {
     // switch to dead state
     setCurrentState("dead");
     bgMusic.close();
+    if(player != null) {
+        player.close();  
+    }
     playMusic("DeathSound.mp3");
     // turn off interaction, so we don't flag more touching koopas or pickups or walls, etc.
     setInteracting(false);
@@ -131,7 +140,7 @@ class Mario extends Player {
   // happens when w, a, s, d are pressed
   void handleInput() {
     
-    if(active.name != "dead") {
+    if(active.name != "dead" && active.name != "won" && !hasWon) {
       // handle running
       if(active.name != "crouching" && (isKeyDown('A') || isKeyDown('D'))) {
         if (isKeyDown('A')) {
@@ -205,6 +214,8 @@ class Mario extends Player {
     }
     
     //print(active.name + "\n");
+    //print(this.y + "\n");
+    //print(hasWon + "\n");
   }
   
   
@@ -213,7 +224,11 @@ class Mario extends Player {
     if(which.name == "dead") {
       removeActor();
       reset();
-    } else {
+    } 
+    else if(which.name == "won") {
+      exit();  
+    }
+    else {
       setCurrentState("idle");
     }
   }
@@ -224,6 +239,14 @@ class Mario extends Player {
     }
     else if(pickup.name == "Shroom") {
       playMusic("Powerup.mp3");  
+    }
+    else if(pickup.name == "Flag") {
+      bgMusic.close();
+      setCurrentState("won");  
+      hasWon = true;
+      //print("*****************Won?*****************");
+      playMusic("StageClear.mp3");
+      setImpulse(50, 0);
     }
   }
   

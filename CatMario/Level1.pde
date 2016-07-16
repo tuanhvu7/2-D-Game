@@ -48,8 +48,10 @@ class Level1 extends MarioLayer {
     //addBoundary(new Boundary(0,0, width,0));
     
     
-    //mario = new Mario(50, height/2);
-    mario = new Mario(4000, height/2);
+    mario = new Mario(50, height/2);
+    //mario = new Mario(4000, height/2);
+    //mario = new Mario(5000, height/2);
+
     addPlayer(mario); 
     
     act1 = false;  
@@ -120,8 +122,8 @@ class Level1 extends MarioLayer {
     addForPlayerOnly(finish);
     
     // troll in end
-    SmallTroll troll = new SmallTroll("Melvin", 5550, 0);
-    addInteractor(troll);
+    SmallTroll troll = new SmallTroll("Troll", 5550, 0);
+    addTrigger(new TrollTrigger(troll, 4250, 0, 5, height));
 
     // for debugging
     showBoundaries = true;
@@ -146,7 +148,7 @@ class Level1 extends MarioLayer {
     }
     
     if((tv1.remove || tv2.remove || tv3.remove  || tv4.remove  || tv5.remove) && !act1) {
-      addTrigger(new BigTVTrigger2(2000, 0, 5, height, 1.5*bigFaceWidth, 0));
+      addTrigger(new BigTVTrigger2(2000, 0, 5, height, 100, 0));
       act1 = true;
     }
     //print(mario.y + "\n");
