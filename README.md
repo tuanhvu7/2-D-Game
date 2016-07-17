@@ -12,7 +12,8 @@ This program needs the ddf/minim library, which can be found [here](https://gith
 ## Getting Started
 
 1. Download [Processing](https://processing.org/download/) and set it up.
-2. Go to the **Processing** directory on your computer (usually in **Documents**).
+	1. Click on **processing.exe** in the processing folder you downloaded.
+2. Go to the **Processing** directory created from clicking on **processing.exe** on your computer (usually in **Documents**).
 3. Extract the downloaded **Minim-master** zip folder
 4. Rename the extracted **Minim-master** folder to **Minim**. 
 5. Put **Minim** in the **libraries** folder in the **Processing** directory.
