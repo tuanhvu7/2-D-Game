@@ -3,7 +3,7 @@ Good resource for making 2-D game
 
 http://processingjs.nihongoresources.com/test/PjsGameEngine/docs/tutorial/more-mario.html
 
-gif pictures:
+gif pictures:ddddddddddd
 http://processingjs.nihongoresources.com/test/PjsGameEngine/docs/tutorial/graphics/backgrounds/
 */
 

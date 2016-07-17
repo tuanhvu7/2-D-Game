@@ -33,6 +33,7 @@ class ShroomBlock extends MarioBlock {
   }
 
   void generate(float[] intersectionInformation) {
+    visible = true;
     float angle = atan2(intersectionInformation[1],intersectionInformation[0]);
     Shroom m = new Shroom(getX(), getY()-height/2);
     m.setImpulse((angle<-1.5*PI ? -1:1) * mushroom_speed, -10);
