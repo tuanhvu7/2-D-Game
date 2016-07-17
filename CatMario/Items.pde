@@ -47,4 +47,13 @@ class Flag extends MarioPickup {
     super("Flag", "RefFlagPole.png", 1, 1, x, y, true);
   }
 }
+
+// checkpoint flag
+// for saving player's position in middle of level
+class Checkpoint extends MarioPickup {
+  Checkpoint(float x, float y) {
+    super("Checkpoint", "RefCheckpoint.png", 1, 1, x, y, true);
+  }
+}
+
   

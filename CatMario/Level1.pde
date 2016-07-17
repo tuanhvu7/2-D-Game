@@ -48,11 +48,10 @@ class Level1 extends MarioLayer {
     //addBoundary(new Boundary(0,0, width,0));
     
     
-    mario = new Mario(50, height/2);
+    //mario = new Mario(50, height/2);
     //mario = new Mario(4000, height/2);
     //mario = new Mario(5000, height/2);
-
-    addPlayer(mario); 
+    //addPlayer(mario); 
     
     act1 = false;  
     // Big TV in beginning
@@ -77,12 +76,19 @@ class Level1 extends MarioLayer {
     pitTele.teleportToPosition(1750, height);
 
     //block at pit
-    addBoundedInteractor(new CoinBlock(1650, 200, false));
+    addBoundedInteractor(new CoinBlock(1650, 200, false));    
+        
+    // checkpoint
+    if(!checkPoint) {
+      mario = new Mario(50, height/2);
+      Checkpoint ckpt = new Checkpoint(2050, 335);
+      addForPlayerOnly(ckpt);  
+    } else {
+      mario = new Mario(2050, height/2);
+    }
+    addPlayer(mario); 
     
     // cat enemy in middle
-    
-        
-    // 2nd set of platforms
     addGroundPlatform(2300, height-158, 128, 110);
     cat = new CatJumper("Cat", 3500, 0);
     addTrigger(new CatTrigger(cat, 2500, 0, 5, height));
@@ -103,7 +109,7 @@ class Level1 extends MarioLayer {
     addBoundedInteractor(new MarioBrick("Brick", 5060, 353));
     addBoundedInteractor(new MarioBrick("Brick", 5060, 353-smallFaceWidth));
     addBoundedInteractor(new MarioBrick("Brick", 5060, 353-2*smallFaceWidth));
-    addBoundedInteractor(new CoinBlock(5135, 353-3*smallFaceWidth-10, false));
+    addBoundedInteractor(new ShroomBlock(5135, 353-3*smallFaceWidth-10, false));
     addBoundedInteractor(new MarioBrick("Brick", 5210, 353));
     addBoundedInteractor(new MarioBrick("Brick", 5210, 353-smallFaceWidth));
     addBoundedInteractor(new MarioBrick("Brick", 5210, 353-2*smallFaceWidth));
@@ -126,8 +132,8 @@ class Level1 extends MarioLayer {
     addTrigger(new TrollTrigger(troll, 4250, 0, 5, height));
 
     // for debugging
-    showBoundaries = true;
-    showTriggers = true;    
+    //showBoundaries = true;
+    //showTriggers = true;    
   }
   
   void draw() {
@@ -148,7 +154,7 @@ class Level1 extends MarioLayer {
     }
     
     if((tv1.remove || tv2.remove || tv3.remove  || tv4.remove  || tv5.remove) && !act1) {
-      addTrigger(new BigTVTrigger2(2000, 0, 5, height, 100, 0));
+      addTrigger(new BigTVTrigger2(1900, 0, 5, height, 100, 0));
       act1 = true;
     }
     //print(mario.y + "\n");

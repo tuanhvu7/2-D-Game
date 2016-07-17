@@ -45,10 +45,15 @@ AudioPlayer player;
 AudioPlayer bgMusic;
 AudioInput input;
 
-boolean checkPoint = false;
+// check if user grabbed checkpoint
+boolean checkPoint;
+
+Level1 lvl1;
+
  
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
+  checkPoint = false;
   frameRate(30);
   addScreen("level", new MarioLevel(11 * screenWidth, screenHeight));
   loopMusic(levelOneSong);
@@ -57,6 +62,8 @@ void initialize() {
 // resets level upon death
 void reset() {
   clearScreens();
+  lvl1.cleanUp();
+  lvl1.clearAll();
   addScreen("level", new MarioLevel(11 * screenWidth, screenHeight));
   player.close(); 
   bgMusic.close();

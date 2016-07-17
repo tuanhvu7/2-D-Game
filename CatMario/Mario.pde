@@ -240,6 +240,9 @@ class Mario extends Player {
     else if(pickup.name == "Shroom") {
       playMusic("Powerup.mp3");  
     }
+    else if(pickup.name == "Checkpoint") {
+      checkPoint = true;
+    }
     else if(pickup.name == "Flag") {
       bgMusic.close();
       setCurrentState("won");  

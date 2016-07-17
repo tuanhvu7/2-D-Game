@@ -1661,7 +1661,6 @@ abstract class Level extends Screen {
   void showActors(boolean b)      { for(LevelLayer l: layers) { l.showActors = b; }}
   void showForeground(boolean b)  { for(LevelLayer l: layers) { l.showForeground = b; }}
   void showTriggers(boolean b)    { for(LevelLayer l: layers) { l.showTriggers = b; }}
-
 }
 /**
  * Level layers are intended to regulate both interaction
@@ -1807,7 +1806,7 @@ abstract class LevelLayer {
   }
 
   // clear everything
-  void clear() {
+  void clearAll() {
     clearExceptPlayer();
     clearPlayers();
   }

@@ -25,9 +25,11 @@ class CoinBlock extends MarioBlock {
  */
 class ShroomBlock extends MarioBlock {
   float mushroom_speed = 0.7;
-  
-  ShroomBlock(float x, float y) {
+  // coin block constructed with given name and x, y positions
+  // see determines if block is visible
+  ShroomBlock(float x, float y, boolean see) {
     super("Mushroom block", x, y);
+    visible = see;
   }
 
   void generate(float[] intersectionInformation) {
