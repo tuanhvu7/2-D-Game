@@ -3,7 +3,7 @@ Good resource for making 2-D game
 
 http://processingjs.nihongoresources.com/test/PjsGameEngine/docs/tutorial/more-mario.html
 
-gif pictures:ddddddddddd
+gif pictures:
 http://processingjs.nihongoresources.com/test/PjsGameEngine/docs/tutorial/graphics/backgrounds/
 */
 
@@ -64,6 +64,7 @@ void reset() {
   clearScreens();
   lvl1.cleanUp();
   lvl1.clearAll();
+  lvl1 = null;
   addScreen("level", new MarioLevel(11 * screenWidth, screenHeight));
   player.close(); 
   bgMusic.close();
