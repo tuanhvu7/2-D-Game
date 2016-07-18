@@ -26,3 +26,4 @@ This program needs the ddf/minim library, which can be found [here](https://gith
 2. Click **Run** to start playing. The game uses **W, A, S, D** controls.
 	1. If the controls are not working, click on the game window.
 	2. After jumping, you can jump again if you are against a flat boundary (stage wall, side of a block, ect...)
+	3. If you hold **w**, you jump higher and fall more slowly
