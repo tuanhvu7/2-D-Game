@@ -2,13 +2,24 @@
 // level layers have background, boundaries, enemies, characters, items, ect...
 class Level1 extends MarioLayer {
   
+  Mario mario;
   // keeps track if player got mushroom
   Boolean gotShroom;
   
-
+  final int smallFaceWidth = 61;
+  final int bigFaceWidth = 292;
+  
+  // army of TV
+  TV tv1 = new TV("TV", 1000, height-178);
+  TV tv2 = new TV("TV", 1000 + smallFaceWidth, height-178);
+  TV tv3 = new TV("TV", 1000 + 2*smallFaceWidth, height-178);
+  TV tv4 = new TV("TV", 1000 + 3*smallFaceWidth, height-178);
+  TV tv5 = new TV("TV", 1000 + 4*smallFaceWidth, height-178);
   // tracks if big TV has been created
   boolean act1;
- 
+  
+  // cat enemy
+  CatJumper cat;
   
   Level1(Level owner) {
     super(owner);
@@ -43,16 +54,20 @@ class Level1 extends MarioLayer {
     //addPlayer(mario); 
     
     act1 = false;  
+    // Big TV in beginning
+    BigTV bigTV1 = new BigTV("BIGTV", 250, 0);
     addInteractor(bigTV1);
     
     //brick blocks near beginning
     addBoundedInteractor(new MarioBrick("Brick", 500, 264));
-    
-    addTrigger(tvTrig1);
-    addTrigger(tvTrig2);
-    addTrigger(tvTrig3);
-    addTrigger(tvTrig4);
-    addTrigger(tvTrig5);
+
+    // groups of little TVs
+    // that appear after Mario goes past x position 750
+    addTrigger(new TVTrigger(tv1, 500, 0, 5,height));
+    addTrigger(new TVTrigger(tv2, 500, 0, 5,height));
+    addTrigger(new TVTrigger(tv3, 500, 0, 5,height));
+    addTrigger(new TVTrigger(tv4, 500, 0, 5,height));
+    addTrigger(new TVTrigger(tv5, 500, 0, 5,height));
     
     // Pipes before pit
     Pipe shoot = addPipe(1250, height-48, true);
@@ -63,17 +78,26 @@ class Level1 extends MarioLayer {
     //block at pit
     addBoundedInteractor(new CoinBlock(1650, 200, false));    
         
-    addForPlayerOnly(ckpt1);  
+    // checkpoint
+    if(!checkPoint) {
+      mario = new Mario(50, height/2);
+      Checkpoint ckpt = new Checkpoint(2050, 335);
+      addForPlayerOnly(ckpt);  
+    } else {
+      mario = new Mario(2050, height/2);
+      //mario = new Mario(2975, height/2);
+    }
     addPlayer(mario); 
     
     // cat enemy in middle
     addGroundPlatform(2300, height-158, 128, 110);
-    addTrigger(catTrig1);
+    cat = new CatJumper("Cat", 3500, 0);
+    addTrigger(new CatTrigger(cat, 2500, 0, 5, height));
     
     // Happys in a row
-    addTrigger(hapTrig1);
-    addTrigger(hapTrig2);
-    addTrigger(bigHapTrig1);
+    addTrigger(new HappyTrigger2(3000, 0, 5, height, 345, 275));
+    addTrigger(new HappyTrigger2(3000, 0, 5, height, 545, 175));
+    addTrigger(new BigHappyTrigger2(3000, 0, 5, height, 850, 155));
 
     // pipes later in stage
     Pipe badEndTele = addPipe(3950, height-48, true);
@@ -98,11 +122,15 @@ class Level1 extends MarioLayer {
     toTeemo.teleportToPipe(teemo);
     badEnd.teleportToPipe(teemo);
     
-    addInteractor(tmo1);
-    addForPlayerOnly(finish1);
+    Teemo tmo = new Teemo("Teemo", 4080, height-185);
+    addInteractor(tmo);
+    
+    Flag finish = new Flag(5400, 190);
+    addForPlayerOnly(finish);
     
     // troll in end
-    addTrigger(trollTrig1);
+    SmallTroll troll = new SmallTroll("Troll", 5550, 0);
+    addTrigger(new TrollTrigger(troll, 4250, 0, 5, height));
 
     // for debugging
     //showBoundaries = true;
@@ -116,8 +144,8 @@ class Level1 extends MarioLayer {
     // die if go through ceiling or in pit
     if(!mario.getDead()) {
       
-      if(cat1 != null) {
-        cat1.jump(); 
+      if(cat != null) {
+        cat.jump(); 
       }
       
       if(mario.y <= -38.0 || mario.y >= height) {
@@ -127,7 +155,7 @@ class Level1 extends MarioLayer {
     }
     
     if((tv1.remove || tv2.remove || tv3.remove  || tv4.remove  || tv5.remove) && !act1) {
-      addTrigger(bigTVTrig1);
+      addTrigger(new BigTVTrigger2(1900, 0, 5, height, 100, 0));
       act1 = true;
     }
     //print(mario.y + "\n");
