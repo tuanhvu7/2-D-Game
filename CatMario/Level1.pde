@@ -84,8 +84,8 @@ class Level1 extends MarioLayer {
       Checkpoint ckpt = new Checkpoint(2050, 335);
       addForPlayerOnly(ckpt);  
     } else {
-      mario = new Mario(2050, height/2);
-      //mario = new Mario(2975, height/2);
+      //mario = new Mario(2050, height/2);
+      mario = new Mario(3500, height/2);
     }
     addPlayer(mario); 
     

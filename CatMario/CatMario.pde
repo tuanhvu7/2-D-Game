@@ -89,17 +89,23 @@ void initialize() {
 // resets level upon death
 void reset() {
   clearScreens();
-  System.gc();
+  
+  minim = null;
+  //player.close(); 
+  bgMusic.close();
+  player = null;
+  bgMusic = null;
+  
   // clear levels out from memory
   marioLevels.remove(0);
   levels.remove(0);
   System.gc();
+  
+  minim = new Minim(this);
   marioLevels.add(new MarioLevel(11 * screenWidth, screenHeight));
   addScreen("level", marioLevels.get(0));
   
   addScreen("level", marioLevels.get(0));
-  player.close(); 
-  bgMusic.close();
   loopMusic(levelOneSong);
 }
 
@@ -115,6 +121,9 @@ void playMusic(String songName) {
   player = minim.loadFile(songName);
   input = minim.getLineIn();
   player.play();
+  //player.close(); 
+  player = null;
+  System.gc();
 }
 
 
