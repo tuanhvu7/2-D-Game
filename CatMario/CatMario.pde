@@ -53,7 +53,7 @@ ArrayList<MarioLayer> levels = new ArrayList<MarioLayer>(1);
  
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
-  checkPoint = true;
+  checkPoint = false;
   frameRate(30);
   marioLevels.add(new MarioLevel(11 * screenWidth, screenHeight));
   addScreen("level", marioLevels.get(0));
