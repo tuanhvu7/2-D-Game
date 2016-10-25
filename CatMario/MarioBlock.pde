@@ -7,6 +7,8 @@ abstract class MarioBlock extends BoundedInteractor {
 
   // how many "somethings" can be generated?
   int content = 1;
+  // bottom boundary y value mario has to hit to generate something
+  float yb;
   
   // mario block constructed with given name and x, y positions
   MarioBlock(String name, float x, float y) {
@@ -30,12 +32,12 @@ abstract class MarioBlock extends BoundedInteractor {
   void setupBoundaries() {
     float xa = (getX() - width/2),
           xb = (getX() + width/2)-1,
-          ya = (getY() - height/2),
+          ya = (getY() - height/2);
           yb = (getY() + height/2)-1;
     
-    addBoundary(new Boundary(xa, yb-1, xa, ya+1));
-    addBoundary(new Boundary(xa, ya, xb, ya));
-    addBoundary(new Boundary(xb, ya+1, xb, yb-1));
+    addBoundary(new Boundary(xa, yb-1, xa, ya+1), true);
+    addBoundary(new Boundary(xa, ya, xb, ya), true);
+    addBoundary(new Boundary(xb, ya+1, xb, yb-1), true);
     // the bottom boundary is special, because we want
     // to know whether things collide with it.
     addBoundary(new Boundary(xb, yb, xa, yb), true);
@@ -45,23 +47,30 @@ abstract class MarioBlock extends BoundedInteractor {
   public void collisionOccured(Boundary boundary, Actor other, float[] intersectionInformation) {    
     // otherwise, see if we need to generate something.
     if (other instanceof Player) {
-      other.stop();
-      other.setCurrentState("jumping");
-      other.setImpulse(0, 10);
-      
-      if(content > 0) {
-        // generate a "something"
-        generate(intersectionInformation);
-        // we can also generate 1 fewer things now
-        content--;
-      }
-      if (content == 0) {
-        // nothing left to generate: change state
-        setCurrentState("exhausted");
+      makeVisible();
+      if(other.y >= yb) {
+        other.stop();
+        other.setCurrentState("jumping");
+        other.setImpulse(0, 10);
+        if(content > 0) {
+          // generate a "something"
+          generate(intersectionInformation);
+          // we can also generate 1 fewer things now
+          content--;
+        }
+        if (content == 0) {
+          // nothing left to generate: change state
+          setCurrentState("exhausted");
+        } 
       }
     }
   }
 
   // generate a "something". subclasses must implement this
   abstract void generate(float[] intersectionInformation);
+  
+  void makeVisible() {
+    visible = true;  
+  }
+  
 }

@@ -47,12 +47,6 @@ class Level1 extends MarioLayer {
     // top
     //addBoundary(new Boundary(0,0, width,0));
     
-    
-    //mario = new Mario(50, height/2);
-    //mario = new Mario(4000, height/2);
-    //mario = new Mario(5000, height/2);
-    //addPlayer(mario); 
-    
     act1 = false;  
     // Big TV in beginning
     BigTV bigTV1 = new BigTV("BIGTV", 250, 0);
@@ -158,6 +152,6 @@ class Level1 extends MarioLayer {
       addTrigger(new BigTVTrigger2(1900, 0, 5, height, 100, 0));
       act1 = true;
     }
-    //print(mario.y + "\n");
+    //print(mario.y - mario.height/2 + "\n");
   }
 }

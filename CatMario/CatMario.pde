@@ -35,7 +35,7 @@ final int groundHeight = 48;
 // songs for different stages
 final String levelOneSong = "PrincessKenny.mp3";
 
-//// for sounds
+// for sounds
 Minim minim = new Minim(this);
 // for player sound animations
 AudioPlayer player;
@@ -96,7 +96,8 @@ void playMusic(String songName) {
   input = minim.getLineIn();
   player.play();
   player = null;
-  System.gc();
+  input = null;
+  //System.gc();
 }
 
 
