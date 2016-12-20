@@ -46,17 +46,12 @@ AudioInput input;
 // check if user grabbed checkpoint
 boolean checkPoint;
 
-// Level arrays and variables
-ArrayList<MarioLevel> marioLevels = new ArrayList<MarioLevel>(1);
-ArrayList<MarioLayer> levels = new ArrayList<MarioLayer>(1);
-
  
 void initialize() {
   //addScreen("mylevel", new MyLevel(screenWidth, screenHeight)); 
   checkPoint = false;
   frameRate(30);
-  marioLevels.add(new MarioLevel(11 * screenWidth, screenHeight));
-  addScreen("level", marioLevels.get(0));
+  addScreen("level", new MarioLevel(11 * screenWidth, screenHeight));
   loopMusic(levelOneSong);
 }
 
@@ -69,17 +64,10 @@ void reset() {
   player = null;
   bgMusic = null;
   input = null;
-  
-  // clear levels out from memory
-  marioLevels.remove(0);
-  levels.remove(0);
   System.gc();
   
   minim = new Minim(this);
-  marioLevels.add(new MarioLevel(11 * screenWidth, screenHeight));
-  addScreen("level", marioLevels.get(0));
-  
-  addScreen("level", marioLevels.get(0));
+  addScreen("level", new MarioLevel(11 * screenWidth, screenHeight));
   loopMusic(levelOneSong);
 }
 
@@ -97,7 +85,6 @@ void playMusic(String songName) {
   player.play();
   player = null;
   input = null;
-  //System.gc();
 }
 
 
